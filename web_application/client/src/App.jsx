@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import DetectionChart from "./components/DetectionChart";
 import Header from "./components/Header";
 
