@@ -4,10 +4,7 @@ import Header from "./components/Header";
 import { postFile } from "./api/index";
 const App = () => {
    const [state, setState] = React.useState({
-      top: false,
-      left: false,
-      bottom: false,
-      right: false,
+      left: true,
    });
 
    const toggleDrawer = (anchor, open) => (event) => {
