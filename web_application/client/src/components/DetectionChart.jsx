@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, {useRef} from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import zoomPlugin from "chartjs-plugin-zoom";
+import zoomPlugin from 'chartjs-plugin-zoom';
 
 ChartJS.register(
   CategoryScale,
@@ -24,7 +24,7 @@ ChartJS.register(
 );
 
 const data = {
-  labels: [0, 1, 2, 3, 4, 5, 6],
+  labels: [0,1,2,3,4,5,6],
   // labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
   datasets: [
     {
@@ -59,40 +59,42 @@ const lineOptions = {
     }
   },
   scales: {
-    x: {
-      gridLines: {
-        display: true,
-      },
-      title: {
-        display: true,
-        text: "value",
-        font: {
-          family: "Comic Sans MS",
-          size: 20,
-          weight: "bold",
-          lineHeight: 1.2,
+    x: 
+      {
+        gridLines: {
+          display: true,
         },
-        padding: { top: 20, left: 0, right: 0, bottom: 0 },
+        title: {
+          display: true,
+          text: 'value',
+          font: {
+            family: 'Comic Sans MS',
+            size: 20,
+            weight: 'bold',
+            lineHeight: 1.2,
+          },
+          padding: {top: 20, left: 0, right: 0, bottom: 0}
+        }
       },
-    },
-
-    y: {
-      // stacked: true,
-      gridLines: {
-        display: true,
-      },
-      title: {
-        display: true,
-        text: "value",
-        font: {
-          family: "Comic Sans MS",
-          size: 20,
-          weight: "bold",
-          lineHeight: 1.2,
+    
+    y: 
+      {
+        // stacked: true,
+        gridLines: {
+          display: true,
         },
-        padding: { top: 20, left: 0, right: 0, bottom: 0 },
-      },
-    },
+        title: {
+          display: true,
+          text: 'value',
+          font: {
+            family: 'Comic Sans MS',
+            size: 20,
+            weight: 'bold',
+            lineHeight: 1.2,
+          },
+          padding: {top: 20, left: 0, right: 0, bottom: 0}
+        }
+      },  
   },
   legend: {
     display: true,
@@ -101,36 +103,31 @@ const lineOptions = {
     enabled: true,
   },
   plugins: {
-    zoom: {
-      pan: {
-        enabled: true,
-        mode: "xy",
-      },
       zoom: {
-        wheel: {
+        pan: {
           enabled: true,
+          mode: 'xy',
         },
-        pinch: {
-          enabled: true,
-        },
-        mode: "xy",
-      },
-    },
-  },
+        zoom: {
+          wheel: {
+            enabled: true,
+          },
+          pinch: {
+            enabled: true
+          },
+          mode: 'xy',
+        }
+      }
+    }
 };
+
 
 const DetectionChart = () => {
   const chartRef = useRef(null);
-  const resetZoom = () => {
-    chartRef.current.resetZoom();
-  };
-  const zoomIn = () => {
-    chartRef.current.zoom(1.1);
-  };
-  const zoomOut = () => {
-    chartRef.current.zoom(0.9);
-  };
-  return (
+  const resetZoom = () => { chartRef.current.resetZoom(); }
+  const zoomIn = () => { chartRef.current.zoom(1.1); }
+  const zoomOut = () => { chartRef.current.zoom(0.9); }
+  return(
     <div className="flex flex-col w-2/3 items-center bg-white rounded-md pr-10 pl-5 pb-5 m-5 shadow-lg">
       <p className="font-medium p-3">
         Detection of solar flares in x-ray light curve data

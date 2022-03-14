@@ -79,18 +79,20 @@ const Sidebar = ({ state, toggleDrawer }) => {
 
     setErrorMessage("");
     console.log(acceptedFiles[0].name.split(".").at(-1));
-    if (!ALLOWED_EXTENSION.includes(acceptedFiles[0].name.split(".").at(-1))) {
-      setFile(null);
-      return setErrorMessage(
-        "File Should be in FITS:[*.lc,*.fits], XLS:[*.xls], ASCII:[*.dat,*.txt,*.csv] "
-      );
+    if (
+       !ALLOWED_EXTENSION.includes(acceptedFiles[0].name.split(".").at(-1))
+    ) {
+       setFile(null);
+       return setErrorMessage(
+          "File Should be in FITS:[*.lc,*.fits], XLS:[*.xls], ASCII:[*.dat,*.txt,*.csv] "
+       );
     }
     setFile(acceptedFiles[0]);
     console.log(acceptedFiles);
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+ }, []);
+ const { getRootProps, isDragActive } = useDropzone({
     onDrop,
-  });
+ });
 
   const list = (anchor) => (
     <Box
