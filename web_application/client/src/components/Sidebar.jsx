@@ -98,11 +98,13 @@ const Sidebar = ({ state, toggleDrawer }) => {
                      />
                      {isDragActive ? (
                         <p>Drop the files here ...</p>
-                     ) : (
+                     ) : !file ? (
                         <p>
                            Drag 'n' drop some files here, or click to select
                            files
                         </p>
+                     ) : (
+                        <p>{file.name}</p>
                      )}
                   </div>
                   {errorMessage && <div className="alert">{errorMessage}</div>}
