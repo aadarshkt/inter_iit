@@ -3,35 +3,29 @@ import DetectionChart from "./components/DetectionChart";
 import Header from "./components/Header";
 import { postFile } from "./api/index";
 const App = () => {
-   const [file, setFile] = useState(null);
-   const [fileName, setFileName] = useState("");
+   const [state, setState] = React.useState({
+      top: false,
+      left: false,
+      bottom: false,
+      right: false,
+   });
 
-   const handlFileInput = async (e) => {
-      e.preventDefault();
-      const res = await postFile({ file, fileName });
-      console.log(res);
+   const toggleDrawer = (anchor, open) => (event) => {
+      if (
+         event.type === "keydown" &&
+         (event.key === "Tab" || event.key === "Shift")
+      ) {
+         return;
+      }
+
+      setState({ ...state, [anchor]: open });
    };
 
    return (
       <div className="flex flex-col min-h-screen w-full bg-[url('./assets/isroBackground.jpg')] bg-cover">
-         <Header />
-
-         <div className="flex grow w-full items-center justify-center">
+         <Header state={state} toggleDrawer={toggleDrawer} />
+         <div className="flex flex-col grow w-full items-center justify-center">
             <DetectionChart />
-            <form onSubmit={handlFileInput} style={{ color: "white" }}>
-               <input
-                  type="file"
-                  name="file"
-                  accept=".lc,.xls,.csv,.dat,.txt,.fits"
-                  onChange={(e) => {
-                     setFile(e.target.files[0]);
-                     setFileName(e.target.files[0].name);
-                  }}
-               />
-               <button type="submit" style={{ border: "2px solid red" }}>
-                  Submit
-               </button>
-            </form>
          </div>
       </div>
    );
