@@ -133,9 +133,9 @@ const DetectionChart = () => {
         Detection of solar flares in x-ray light curve data
       </p>
       <Line ref={chartRef} data={data} options={lineOptions} />
-      <button class="bg-black text-white" onClick={resetZoom}>Reset Zoom </button>
-      <button class="bg-black text-white" onClick={zoomIn}>Zoom In</button>
-      <button class="bg-black text-white" onClick={zoomOut}>Zoom Out</button>
+      <button className="bg-black text-white" onClick={resetZoom}>Reset Zoom </button>
+      <button className="bg-black text-white" onClick={zoomIn}>Zoom In</button>
+      <button className="bg-black text-white" onClick={zoomOut}>Zoom Out</button>
     </div>
   );
 };
