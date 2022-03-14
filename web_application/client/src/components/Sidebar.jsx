@@ -9,7 +9,6 @@ import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import { TextField } from "@mui/material";
-import Stack from "@mui/material/Stack";
 import { postFile } from "../api";
 
 const ALLOWED_EXTENSION = ["lc", "txt", "xls", "csv", "dat", "fits"];
@@ -52,7 +51,7 @@ const Sidebar = ({ state, toggleDrawer }) => {
       setFile(acceptedFiles[0]);
       console.log(acceptedFiles);
    }, []);
-   const { getRootProps, getInputProps, isDragActive } = useDropzone({
+   const { getRootProps, isDragActive } = useDropzone({
       onDrop,
    });
 
