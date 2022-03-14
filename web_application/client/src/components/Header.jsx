@@ -5,11 +5,7 @@ import Sidebar from "./Sidebar";
 const Header = ({ state, toggleDrawer}) => {
 
   const downloadManual = () => {
-    try {
-      const res = axios.get(`http://localhost:5000/manual`)
-    } catch (error) {
-      
-    }
+    
   }
 
   return (
