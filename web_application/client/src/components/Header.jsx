@@ -1,7 +1,9 @@
 import axios from "axios";
 import React from "react";
+import Sidebar from "./Sidebar";
 
-const Header = () => {
+
+const Header = ({ state, toggleDrawer}) => {
 
   const downloadManual = () => {
     try {
@@ -16,7 +18,7 @@ const Header = () => {
       <p className="text-white text-4xl">Solar Flare Finder</p>
       <div className="flex items-center">
         <button className="text-white text-lg mr-10 p-2" onClick={() => downloadManual}>Manual</button>
-        <button className="text-black font-medium pl-5 pr-5 bg-white rounded-lg pb-2 pt-2">Upload</button>
+        <Sidebar state={state} toggleDrawer={toggleDrawer}/>
       </div>
     </div>
   );
