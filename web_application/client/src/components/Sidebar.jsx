@@ -88,7 +88,7 @@ const Sidebar = ({ state, toggleDrawer, chartResults}) => {
     setFile(acceptedFiles[0]);
     console.log(acceptedFiles);
   }, []);
-  const { getRootProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
   });
 
@@ -137,7 +137,7 @@ const Sidebar = ({ state, toggleDrawer, chartResults}) => {
               {...getRootProps()}
             >
               <input
-                //  {...getInputProps()}
+                {...getInputProps()}
                 type="file"
                 name="file"
                 accept=".lc,.xls,.csv,.dat,.txt,.fits"
