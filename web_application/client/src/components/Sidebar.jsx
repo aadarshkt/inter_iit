@@ -7,7 +7,7 @@ import { useDropzone } from "react-dropzone";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
-import { TextField, Typography } from "@mui/material";
+import { TextField } from "@mui/material";
 import { postFile } from "../api";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -60,8 +60,8 @@ const Sidebar = ({ state, toggleDrawer, chartResults }) => {
     e.preventDefault();
     if (!file) return setErrorMessage("File Not Selected");
     const res = await postFile({ file });
-    console.log(res);
     chartResults(res.data);
+    toggleDrawer(`left`, false);
   };
 
   const handleDateChange = (newDate) => {
@@ -71,7 +71,6 @@ const Sidebar = ({ state, toggleDrawer, chartResults }) => {
 
   const onDrop = useCallback((acceptedFiles) => {
     setErrorMessage("");
-    console.log(acceptedFiles[0].name.split(".").at(-1));
     if (!ALLOWED_EXTENSION.includes(acceptedFiles[0].name.split(".").at(-1))) {
       setFile(null);
       return setErrorMessage(
@@ -79,7 +78,6 @@ const Sidebar = ({ state, toggleDrawer, chartResults }) => {
       );
     }
     setFile(acceptedFiles[0]);
-    console.log(acceptedFiles);
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
