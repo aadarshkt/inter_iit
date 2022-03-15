@@ -4,11 +4,15 @@ import DetectionChart from "./components/DetectionChart";
 import FileUpload from "./components/FileUpload";
 import { postFile } from "./api/index";
 import Welcome from "./components/Welcome";
+import { parseCSV } from "./utils/parseCSV";
 
 const App = () => {
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     left: true,
   });
+
+  const [chartVisibility, setChartVisibility] = useState(false);
+  const [chartData, setChartData] = useState([]);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -21,14 +25,37 @@ const App = () => {
     setState({ ...state, [anchor]: open });
   };
 
+  const handleChartResults = (data) => {
+    //Conver CSV response to
+    const resultData = parseCSV(data);
+
+    // useEffect(() => {
+    //   console.log(resultData)
+    // }, [])
+
+    setChartData(resultData);
+    console.log(resultData);
+    console.log(chartData);
+  };
+
+  useEffect(() => {
+    console.log(chartData);
+  }, [chartData]);
+
   return (
     <div className="flex flex-col min-h-screen w-full bg-[url('./assets/isroBackground.jpg')] bg-cover">
-      {/* <div className="flex flex-col grow w-full items-center justify-center">
-            <DetectionChart />
-         </div> */}
-      <Header state={state} toggleDrawer={toggleDrawer} />
+      <Header
+        state={state}
+        toggleDrawer={toggleDrawer}
+        chartResults={handleChartResults}
+      />
       <div className="flex grow">
-        <Welcome onClickInputData={toggleDrawer}/>
+        {chartData.length == 0 ? (
+          <Welcome onClickInputData={toggleDrawer} />
+        ) : (
+          <p className="text-white">Data to be shown</p>
+          
+        )}
       </div>
     </div>
   );

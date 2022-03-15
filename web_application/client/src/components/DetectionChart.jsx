@@ -122,7 +122,7 @@ const lineOptions = {
 };
 
 
-const DetectionChart = () => {
+const DetectionChart = ({ data }) => {
   const chartRef = useRef(null);
   const resetZoom = () => { chartRef.current.resetZoom(); }
   const zoomIn = () => { chartRef.current.zoom(1.1); }

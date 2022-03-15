@@ -29,14 +29,28 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
   );
 }
 
-const Sidebar = ({ state, toggleDrawer }) => {
+const a11yProps = (index) => {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+
+const Sidebar = ({ state, toggleDrawer, chartResults}) => {
   const [value, setValue] = useState(new Date("2009-01-01T21:11:54"));
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -47,24 +61,14 @@ const Sidebar = ({ state, toggleDrawer }) => {
     setTabIndex(newValue);
   };
 
-  function a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`,
-    };
-  }
-
-  TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
-  };
-
-  const handlFileSubmit = async (e) => {
+ 
+ 
+  const handleFileSubmit = async (e) => {
     e.preventDefault();
     if (!file) return setErrorMessage("File Not Selected");
     const res = await postFile({ file });
-    console.log(res.data);
+    console.log(res);
+    chartResults(res.data)
   };
 
   const handleDateChange = (newDate) => {
@@ -73,8 +77,6 @@ const Sidebar = ({ state, toggleDrawer }) => {
   };
 
   const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-
     setErrorMessage("");
     console.log(acceptedFiles[0].name.split(".").at(-1));
     if (!ALLOWED_EXTENSION.includes(acceptedFiles[0].name.split(".").at(-1))) {
@@ -125,10 +127,10 @@ const Sidebar = ({ state, toggleDrawer }) => {
         <TabPanel value={tabIndex} index={1}>
           <form
             className="flex flex-col w-full h-full justify-center"
-            onSubmit={handlFileSubmit}
+            onSubmit={handleFileSubmit}
           >
             <p className="mb-5 text-xl text-center w-full">
-              Upload fits file to get analysis
+              Upload file to get analysis
             </p>
             <div
               className="flex flex-col w-full h-full justify-center bg-black/10 p-6 rounded-lg"
