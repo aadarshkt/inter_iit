@@ -27,11 +27,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -41,7 +37,7 @@ const a11yProps = (index) => {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
-}
+};
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -49,8 +45,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-
-const Sidebar = ({ state, toggleDrawer, chartResults}) => {
+const Sidebar = ({ state, toggleDrawer, chartResults }) => {
   const [value, setValue] = useState(new Date("2009-01-01T21:11:54"));
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -61,14 +56,12 @@ const Sidebar = ({ state, toggleDrawer, chartResults}) => {
     setTabIndex(newValue);
   };
 
- 
- 
   const handleFileSubmit = async (e) => {
     e.preventDefault();
     if (!file) return setErrorMessage("File Not Selected");
     const res = await postFile({ file });
     console.log(res);
-    chartResults(res.data)
+    chartResults(res.data);
   };
 
   const handleDateChange = (newDate) => {
