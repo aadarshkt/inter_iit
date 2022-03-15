@@ -5,7 +5,6 @@ const API = axios.create({
 });
 
 export const postFile = ({ file }) => {
-   console.log(file);
    const data = new FormData();
    data.append("file", file);
    return API.post("/", data);

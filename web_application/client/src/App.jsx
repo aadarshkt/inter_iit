@@ -3,10 +3,12 @@ import Header from "./components/Header";
 import DetectionChart from "./components/DetectionChart";
 import FileUpload from "./components/FileUpload";
 import { postFile } from "./api/index";
+import Welcome from "./components/Welcome";
+
 const App = () => {
-   const [state, setState] = React.useState({
-      left: true,
-   });
+  const [state, setState] = React.useState({
+    left: true,
+  });
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -21,11 +23,13 @@ const App = () => {
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-[url('./assets/isroBackground.jpg')] bg-cover">
-      <Header state={state} toggleDrawer={toggleDrawer} />
       {/* <div className="flex flex-col grow w-full items-center justify-center">
             <DetectionChart />
          </div> */}
-      <FileUpload />
+      <Header state={state} toggleDrawer={toggleDrawer} />
+      <div className="flex grow">
+        <Welcome onClickInputData={toggleDrawer}/>
+      </div>
     </div>
   );
 };

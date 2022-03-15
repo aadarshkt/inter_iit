@@ -8,7 +8,7 @@ const FileUpload = () => {
   return (
     <Box className="flex justify-center items-center -mt-10 h-screen w-full shadow-lg rounded">
       <Box
-        className="flex flex-col justify-center items-center bg-white w-2/3 rounded"
+        className="flex flex-col justify-center items-center bg-white/50 w-2/3 rounded"
         style={{ boxShadow: "0 0 4px 4px white" }}
       >
         <Box className="flex justify-between items-center w-full px-5 py-4">

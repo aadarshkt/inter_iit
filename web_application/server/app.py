@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/", methods=['POST'])
+@app.route("/", methods=['GET', 'POST'])
 @cross_origin()
 def members():
     if(request.method == 'POST'):
