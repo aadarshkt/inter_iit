@@ -1,4 +1,6 @@
-import React, {useRef} from "react";
+import React, { useRef, useState } from "react";
+import CurveTypes from "./CurveTypes";
+import ZoomGroup from "./ZoomGroup";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,7 +12,10 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import zoomPlugin from 'chartjs-plugin-zoom';
+import zoomPlugin from "chartjs-plugin-zoom";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 ChartJS.register(
   CategoryScale,
@@ -23,8 +28,10 @@ ChartJS.register(
   zoomPlugin
 );
 
+const maxSize = 1500;
+
 const data = {
-  labels: [0,1,2,3,4,5,6],
+  labels: [0, 1, 2, 3, 4, 5, 6],
   // labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
   datasets: [
     {
@@ -59,42 +66,40 @@ const lineOptions = {
     }
   },
   scales: {
-    x: 
-      {
-        gridLines: {
-          display: true,
-        },
-        title: {
-          display: true,
-          text: 'value',
-          font: {
-            family: 'Comic Sans MS',
-            size: 20,
-            weight: 'bold',
-            lineHeight: 1.2,
-          },
-          padding: {top: 20, left: 0, right: 0, bottom: 0}
-        }
+    x: {
+      gridLines: {
+        display: true,
       },
-    
-    y: 
-      {
-        // stacked: true,
-        gridLines: {
-          display: true,
+      title: {
+        display: true,
+        text: "value",
+        font: {
+          family: "Comic Sans MS",
+          size: 20,
+          weight: "bold",
+          lineHeight: 1.2,
         },
-        title: {
-          display: true,
-          text: 'value',
-          font: {
-            family: 'Comic Sans MS',
-            size: 20,
-            weight: 'bold',
-            lineHeight: 1.2,
-          },
-          padding: {top: 20, left: 0, right: 0, bottom: 0}
-        }
-      },  
+        padding: { top: 20, left: 0, right: 0, bottom: 0 },
+      },
+    },
+
+    y: {
+      // stacked: true,
+      gridLines: {
+        display: true,
+      },
+      title: {
+        display: true,
+        text: "value",
+        font: {
+          family: "Comic Sans MS",
+          size: 20,
+          weight: "bold",
+          lineHeight: 1.2,
+        },
+        padding: { top: 20, left: 0, right: 0, bottom: 0 },
+      },
+    },
   },
   legend: {
     display: true,
@@ -103,46 +108,97 @@ const lineOptions = {
     enabled: true,
   },
   plugins: {
+    zoom: {
+      pan: {
+        enabled: true,
+        mode: "xy",
+      },
       zoom: {
-        pan: {
+        wheel: {
           enabled: true,
-          mode: 'xy',
         },
-        zoom: {
-          wheel: {
-            enabled: true,
-          },
-          pinch: {
-            enabled: true
-          },
-          mode: 'xy',
-        }
-      }
-    }
+        pinch: {
+          enabled: true,
+        },
+        mode: "xy",
+      },
+    },
+  },
 };
-
-
 const DetectionChart = () => {
+  const [value, setValue] = useState("raw");
   const chartRef = useRef(null);
-  const resetZoom = () => { chartRef.current.resetZoom(); }
-  const zoomIn = () => { chartRef.current.zoom(1.1); }
-  const zoomOut = () => { chartRef.current.zoom(0.9); }
-  return(
-    <div className="flex flex-col w-2/3 items-center bg-white rounded-md pr-10 pl-5 pb-5 m-5 shadow-lg">
-      <p className="font-medium p-3">
-        Detection of solar flares in x-ray light curve data
+
+  const [width, setWidth] = useState(window.innerWidth);
+
+  const changeDir = () => {
+    setWidth(window.innerWidth);
+  };
+  window.addEventListener("resize", changeDir);
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+  const resetZoom = () => {
+    chartRef.current.resetZoom();
+  };
+  const zoomIn = () => {
+    chartRef.current.zoom(1.1);
+  };
+  const zoomOut = () => {
+    chartRef.current.zoom(0.9);
+  };
+  return (
+    <div className="flex flex-col w-4/5 items-center bg-white rounded-md pr-10 pl-5 pb-5 m-5 shadow-lg">
+      <p className="font-bold text-xl p-3">
+        Detection of solar flares in X-Ray light curve data
       </p>
-      <Line ref={chartRef} data={data} options={lineOptions} />
-      <div className="flex w-full justify-evenly pt-5">
-        <button className="bg-blue-600 w-32 rounded-lg text-white mr-3 p-2" onClick={resetZoom}>
-          Reset Zoom
-        </button>
-        <button className="bg-blue-600 w-32 rounded-lg text-white mr-3 p-2" onClick={zoomIn}>
-          Zoom In
-        </button>
-        <button className="bg-blue-600 w-32 rounded-lg text-white mr-3 p-2" onClick={zoomOut}>
-          Zoom Out
-        </button>
+
+      <div
+        className={
+          width < maxSize
+            ? "flex flex-col-reverse items-center w-full"
+            : "flex items-center w-full"
+        }
+      >
+        <div className="w-full">
+          <Line ref={chartRef} data={data} options={lineOptions} />
+          <ZoomGroup resetZoom={resetZoom} zoomIn={zoomIn} zoomOut={zoomOut} />
+        </div>
+        <div className="px-4 mx-3">
+          <FormControl>
+            <FormLabel
+              id={
+                width < maxSize
+                  ? "demo-row-controlled-radio-buttons-group"
+                  : "demo-controlled-radio-buttons-group"
+              }
+            >
+              Select Curve to Display
+            </FormLabel>
+
+            {width < maxSize ? (
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-controlled-radio-buttons-group"
+                name="row-controlled-radio-buttons-group"
+                value={value}
+                onChange={handleChange}
+              >
+                <CurveTypes />
+              </RadioGroup>
+            ) : (
+              <RadioGroup
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="controlled-radio-buttons-group"
+                value={value}
+                onChange={handleChange}
+              >
+                <CurveTypes />
+              </RadioGroup>
+            )}
+          </FormControl>
+        </div>
       </div>
     </div>
   );

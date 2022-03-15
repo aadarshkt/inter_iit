@@ -3,13 +3,11 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
-import Switch from "@mui/material/Switch";
 import { useDropzone } from "react-dropzone";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import { TextField, Typography } from "@mui/material";
-import Stack from "@mui/material/Stack";
 import { postFile } from "../api";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -79,20 +77,18 @@ const Sidebar = ({ state, toggleDrawer }) => {
 
     setErrorMessage("");
     console.log(acceptedFiles[0].name.split(".").at(-1));
-    if (
-       !ALLOWED_EXTENSION.includes(acceptedFiles[0].name.split(".").at(-1))
-    ) {
-       setFile(null);
-       return setErrorMessage(
-          "File Should be in FITS:[*.lc,*.fits], XLS:[*.xls], ASCII:[*.dat,*.txt,*.csv] "
-       );
+    if (!ALLOWED_EXTENSION.includes(acceptedFiles[0].name.split(".").at(-1))) {
+      setFile(null);
+      return setErrorMessage(
+        "File Should be in FITS:[*.lc,*.fits], XLS:[*.xls], ASCII:[*.dat,*.txt,*.csv] "
+      );
     }
     setFile(acceptedFiles[0]);
     console.log(acceptedFiles);
- }, []);
- const { getRootProps, isDragActive } = useDropzone({
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
- });
+  });
 
   const list = (anchor) => (
     <Box
@@ -131,13 +127,15 @@ const Sidebar = ({ state, toggleDrawer }) => {
             className="flex flex-col w-full h-full justify-center"
             onSubmit={handlFileSubmit}
           >
-          <p className="mb-5 text-xl text-center w-full">Upload fits file to get analysis</p>
+            <p className="mb-5 text-xl text-center w-full">
+              Upload fits file to get analysis
+            </p>
             <div
               className="flex flex-col w-full h-full justify-center bg-black/10 p-6 rounded-lg"
               {...getRootProps()}
             >
               <input
-                //  {...getInputProps()}
+                {...getInputProps()}
                 type="file"
                 name="file"
                 accept=".lc,.xls,.csv,.dat,.txt,.fits"
@@ -149,7 +147,13 @@ const Sidebar = ({ state, toggleDrawer }) => {
                 <p>Drag 'n' drop some files here, or click to select files</p>
               )}
             </div>
-            {errorMessage && <div className="alert"><p className=" pt-5 text-xl text-center w-full">{errorMessage}</p></div>}
+            {errorMessage && (
+              <div className="alert">
+                <p className=" pt-5 text-xl text-center w-full">
+                  {errorMessage}
+                </p>
+              </div>
+            )}
             <Button
               className="bg-purple-600 mt-4 px-7"
               variant="contained"
