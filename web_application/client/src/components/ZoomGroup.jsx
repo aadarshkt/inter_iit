@@ -10,7 +10,7 @@ const ZoomGroup = ({ resetZoom, zoomIn, zoomOut }) => {
       <ToolTip title="Zoom Out" arrow>
         <ZoomOutIcon
           className="px- cursor-pointer rounded border-4 border-black"
-          style={{ fontSize: "2.6rem", "line-height": "1" }}
+          style={{ fontSize: "2.6rem" }}
           onClick={zoomOut}
         >
           Zoom Out
