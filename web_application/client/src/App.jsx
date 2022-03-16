@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import DetectionChart from "./components/DetectionChart";
-import FileUpload from "./components/FileUpload";
-import { postFile } from "./api/index";
 import Welcome from "./components/Welcome";
 import { parseCSV } from "./utils/parseCSV";
 
@@ -11,7 +9,6 @@ const App = () => {
     left: false,
   });
 
-  const [chartVisibility, setChartVisibility] = useState(false);
   const [chartData, setChartData] = useState([]);
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -25,16 +22,10 @@ const App = () => {
     setState({ ...state, [anchor]: open });
   };
 
+  //Convert CSV response to required object
   const handleChartResults = (data) => {
-    //Conver CSV response to
     const resultData = parseCSV(data);
-
-    // useEffect(() => {
-    //   console.log(resultData)
-    // }, [])
-
     setChartData(resultData);
-    console.log(resultData);
     console.log(chartData);
   };
 
@@ -53,8 +44,7 @@ const App = () => {
         {chartData.length === 0 ? (
           <Welcome onClickInputData={toggleDrawer} />
         ) : (
-          <p className="text-white">Data to be shown</p>
-          
+          <DetectionChart chartData={chartData} />
         )}
       </div>
     </div>
