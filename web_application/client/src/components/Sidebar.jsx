@@ -7,7 +7,7 @@ import { useDropzone } from "react-dropzone";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
-import { TextField, Typography } from "@mui/material";
+import { TextField } from "@mui/material";
 import { postFile } from "../api";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";

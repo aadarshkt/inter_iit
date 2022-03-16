@@ -8,7 +8,7 @@ import { parseCSV } from "./utils/parseCSV";
 
 const App = () => {
   const [state, setState] = useState({
-    left: true,
+    left: false,
   });
 
   const [chartVisibility, setChartVisibility] = useState(false);
@@ -50,7 +50,7 @@ const App = () => {
         chartResults={handleChartResults}
       />
       <div className="flex grow">
-        {chartData.length == 0 ? (
+        {chartData.length === 0 ? (
           <Welcome onClickInputData={toggleDrawer} />
         ) : (
           <p className="text-white">Data to be shown</p>
