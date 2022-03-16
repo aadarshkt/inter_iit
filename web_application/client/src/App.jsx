@@ -6,7 +6,7 @@ import { parseCSV } from "./utils/parseCSV";
 
 const App = () => {
   const [state, setState] = useState({
-    left: true,
+    left: false,
   });
 
   const [chartData, setChartData] = useState([]);
