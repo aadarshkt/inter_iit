@@ -12,6 +12,7 @@ import {
   Legend,
 } from "chart.js";
 import zoomPlugin from "chartjs-plugin-zoom";
+import annotationPlugin from "chartjs-plugin-annotation";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
@@ -25,7 +26,8 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  zoomPlugin
+  zoomPlugin,
+  annotationPlugin
 );
 
 const chartSettings = {
@@ -53,11 +55,21 @@ const additionalFitChartSetting = {
   backgroundColor: "rgba(255, 10, 63, 1)",
   pointHoverBackgroundColor: "rgba(255, 10, 63, 1)",
 };
-const additionalPeakChartSetting = {
-  label: "PEAK_CURVE",
-  borderColor: "rgba(255, 10, 63, 0.5)",
-  backgroundColor: "rgba(255, 10, 63, 1)",
-  pointHoverBackgroundColor: "rgba(255, 10, 63, 1)",
+
+const zoomSettings = {
+  pan: {
+    enabled: true,
+    mode: "xy",
+  },
+  zoom: {
+    wheel: {
+      enabled: true,
+    },
+    pinch: {
+      enabled: true,
+    },
+    mode: "xy",
+  },
 };
 
 const optionSettings = {
@@ -80,7 +92,7 @@ const optionSettings = {
     },
 
     y: {
-      // stacked: true,
+      stacked: true,
       gridLines: {
         display: true,
       },
@@ -104,21 +116,7 @@ const optionSettings = {
     enabled: true,
   },
   plugins: {
-    zoom: {
-      pan: {
-        enabled: true,
-        mode: "xy",
-      },
-      zoom: {
-        wheel: {
-          enabled: true,
-        },
-        pinch: {
-          enabled: true,
-        },
-        mode: "xy",
-      },
-    },
+    zoom: zoomSettings,
   },
 };
 
@@ -135,7 +133,7 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
   };
   const chartRef = useRef(null);
 
-  const { time, rate, convolve, stitch } = chartData;
+  const { origTime, time, rate, convolve, stitch } = chartData;
   const {
     catClass,
     decayTime,
@@ -156,6 +154,32 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
 
   const [lineOptions, setLineOptions] = useState(optionSettings);
 
+  const peakLineOption = {
+    type: "line",
+    borderColor: "black",
+    borderWidth: 4,
+    scaleID: "x",
+  };
+
+  const labelOptions = {
+    enabled: true,
+    backgroundColor: "black",
+    borderColor: "black",
+    borderRadius: 10,
+    borderWidth: 2,
+    position: "start",
+  };
+  let annotateArr = [];
+  peakArr.forEach((value) => {
+    annotateArr.push({
+      ...peakLineOption,
+      label: {
+        ...labelOptions,
+        content: [`Peak Time: ${origTime[value]}`],
+      },
+      value: (Math.round(value / 50) * 50) / 50,
+    });
+  });
   useEffect(() => {
     const setRawCurve = () => {
       setDatasetArr([
@@ -191,12 +215,34 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
       ]);
     };
 
+    const peakLineOption = {
+      ...optionSettings,
+      // onClick: (e, element) => {
+      //   if (element.length > 0) {
+      //     var ind = element[0].index;
+      //     alert(`${chartData.x[ind]}, ${chartData.y[ind]}`);
+      //   }
+      // },
+      plugins: {
+        zoom: zoomSettings,
+        annotation: {
+          annotations: annotateArr,
+        },
+      },
+    };
     if (value === "raw") setRawCurve();
     else {
       if (stitchOpen) {
         setStichConvolveCurve();
       } else {
         setOnlyConvolveCurve();
+      }
+      if (showPeaks) setLineOptions(peakLineOption);
+      else {
+        setLineOptions((prev) => {
+          let obj = { ...prev, plugins: { zoom: zoomSettings } };
+          return obj;
+        });
       }
     }
   }, [value, rate, convolve, stitchOpen, stitch, showPeaks]);
@@ -219,19 +265,6 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
     if (isOpen) setWidth("w-4/5");
     else setWidth("w-4/5");
   }, [isOpen]);
-
-  const [Ytemp, setYtemp] = useState(yPeakArr);
-
-  useEffect(() => {
-    const yMaxValue = chartRef.current.scales.y.max;
-    setYtemp((prev) => {
-      let temp = prev.map((value, index) => {
-        if (index % 3 === 1) return yMaxValue;
-        return value;
-      });
-      return temp;
-    });
-  }, []);
 
   const data = {
     labels: time,

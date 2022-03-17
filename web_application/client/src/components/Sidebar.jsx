@@ -69,8 +69,8 @@ const Sidebar = ({
     toggleDrawer(`left`, false);
     try {
       const res = await postFile({ file });
-      await chartResults(res.data);
       await peakResults(res.data);
+      await chartResults(res.data);
     } catch (error) {
       setErrorMessage(`${error.errorMessage}`);
     } finally {
