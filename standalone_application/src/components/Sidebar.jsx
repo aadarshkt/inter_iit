@@ -61,13 +61,12 @@ const Sidebar = ({ state, toggleDrawer, chartResults }) => {
     if (!file) return setErrorMessage("File Not Selected");
     const res = await postFile({ file });
     chartResults(res.data);
-    console.log(res.data);
+
     toggleDrawer(`left`, false);
   };
 
   const handleDateChange = (newDate) => {
     setValue(newDate);
-    console.log(newDate);
   };
 
   const onDrop = useCallback((acceptedFiles) => {

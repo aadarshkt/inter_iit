@@ -11,6 +11,7 @@ const ChartFooter = ({
   zoomIn,
   zoomOut,
   handleStitch,
+  handlePeak,
 }) => {
   return (
     <div className="flex justify-between">
@@ -25,7 +26,7 @@ const ChartFooter = ({
               Toggle Peaks
             </Button>
             <Button
-            disabled
+              disabled
               variant="contained"
               style={{ backgroundColor: "rgb(25, 118, 210)" }}
             >
@@ -37,6 +38,9 @@ const ChartFooter = ({
             <Button
               style={{ backgroundColor: "rgb(25, 118, 210)" }}
               variant="contained"
+              onClick={() => {
+                handlePeak();
+              }}
             >
               Toggle Peaks
             </Button>

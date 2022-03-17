@@ -48,6 +48,7 @@ const Sidebar = ({
   state,
   toggleDrawer,
   chartResults,
+  peakResults,
   setIsLoading,
   isLoading,
 }) => {
@@ -68,11 +69,10 @@ const Sidebar = ({
     toggleDrawer(`left`, false);
     try {
       const res = await postFile({ file });
-      console.log(res.data);
       await chartResults(res.data);
+      await peakResults(res.data);
     } catch (error) {
       setErrorMessage(`${error.errorMessage}`);
-      console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -80,7 +80,6 @@ const Sidebar = ({
 
   const handleDateChange = (newDate) => {
     setValue(newDate);
-    console.log(newDate);
   };
 
   const onDrop = useCallback((acceptedFiles) => {

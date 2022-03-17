@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useMemo } from "react";
 import CurveTypes from "./CurveTypes";
 import { Line } from "react-chartjs-2";
 import {
@@ -49,6 +49,12 @@ const additionalChartSetting = {
 };
 const additionalFitChartSetting = {
   label: "FIT_CURVE",
+  borderColor: "rgba(255, 10, 63, 0.5)",
+  backgroundColor: "rgba(255, 10, 63, 1)",
+  pointHoverBackgroundColor: "rgba(255, 10, 63, 1)",
+};
+const additionalPeakChartSetting = {
+  label: "PEAK_CURVE",
   borderColor: "rgba(255, 10, 63, 0.5)",
   backgroundColor: "rgba(255, 10, 63, 1)",
   pointHoverBackgroundColor: "rgba(255, 10, 63, 1)",
@@ -116,18 +122,29 @@ const optionSettings = {
   },
 };
 
-const DetectionChart = ({ chartData, isOpen }) => {
+const DetectionChart = ({ chartData, peakData, isOpen }) => {
   const [value, setValue] = useState("raw");
   const [width, setWidth] = useState("w-full");
   const [stitchOpen, setStitchOpen] = useState(false);
+  const [showPeaks, setShowPeaks] = useState(false);
+  const handleShowPeak = () => {
+    setShowPeaks(!showPeaks);
+  };
   const handleStitch = () => {
     setStitchOpen(!stitchOpen);
-    console.log(stitchOpen);
-    console.log(datasetArr);
   };
   const chartRef = useRef(null);
 
   const { time, rate, convolve, stitch } = chartData;
+  const {
+    catClass,
+    decayTime,
+    riseTime,
+    peakFlux,
+    xPeakArr,
+    yPeakArr,
+    peakArr,
+  } = peakData;
 
   const [datasetArr, setDatasetArr] = useState([
     {
@@ -137,8 +154,10 @@ const DetectionChart = ({ chartData, isOpen }) => {
     },
   ]);
 
+  const [lineOptions, setLineOptions] = useState(optionSettings);
+
   useEffect(() => {
-    if (value === "raw")
+    const setRawCurve = () => {
       setDatasetArr([
         {
           ...chartSettings,
@@ -146,30 +165,41 @@ const DetectionChart = ({ chartData, isOpen }) => {
           data: rate,
         },
       ]);
+    };
+    const setStichConvolveCurve = () => {
+      setDatasetArr([
+        {
+          ...chartSettings,
+          ...additionalFitChartSetting,
+          data: stitch,
+        },
+        {
+          ...chartSettings,
+          ...additionalChartSetting,
+          data: convolve,
+        },
+      ]);
+    };
+
+    const setOnlyConvolveCurve = () => {
+      setDatasetArr([
+        {
+          ...chartSettings,
+          ...additionalChartSetting,
+          data: convolve,
+        },
+      ]);
+    };
+
+    if (value === "raw") setRawCurve();
     else {
-      if (stitchOpen)
-        setDatasetArr([
-          {
-            ...chartSettings,
-            ...additionalFitChartSetting,
-            data: stitch,
-          },
-          {
-            ...chartSettings,
-            ...additionalChartSetting,
-            data: convolve,
-          },
-        ]);
-      else
-        setDatasetArr([
-          {
-            ...chartSettings,
-            ...additionalChartSetting,
-            data: convolve,
-          },
-        ]);
+      if (stitchOpen) {
+        setStichConvolveCurve();
+      } else {
+        setOnlyConvolveCurve();
+      }
     }
-  }, [value, rate, convolve, stitchOpen, stitch]);
+  }, [value, rate, convolve, stitchOpen, stitch, showPeaks]);
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -190,23 +220,22 @@ const DetectionChart = ({ chartData, isOpen }) => {
     else setWidth("w-4/5");
   }, [isOpen]);
 
-  // useEffect(() => {
-  //   console.log(datasetArr);
-  // }, [datasetArr]);
+  const [Ytemp, setYtemp] = useState(yPeakArr);
+
+  useEffect(() => {
+    const yMaxValue = chartRef.current.scales.y.max;
+    setYtemp((prev) => {
+      let temp = prev.map((value, index) => {
+        if (index % 3 === 1) return yMaxValue;
+        return value;
+      });
+      return temp;
+    });
+  }, []);
 
   const data = {
     labels: time,
     datasets: datasetArr,
-  };
-
-  const lineOptions = {
-    ...optionSettings,
-    onClick: (e, element) => {
-      if (element.length > 0) {
-        var ind = element[0].index;
-        alert(`${chartData.x[ind]}, ${chartData.y[ind]}`);
-      }
-    },
   };
 
   return (
@@ -224,6 +253,7 @@ const DetectionChart = ({ chartData, isOpen }) => {
             <ChartFooter
               rawOrConvolve={value}
               handleStitch={handleStitch}
+              handlePeak={handleShowPeak}
               resetZoom={resetZoom}
               zoomIn={zoomIn}
               zoomOut={zoomOut}

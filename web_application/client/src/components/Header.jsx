@@ -5,6 +5,7 @@ const Header = ({
   state,
   toggleDrawer,
   chartResults,
+  peakResults,
   isLoading,
   setIsLoading,
   onLoad,
@@ -18,6 +19,7 @@ const Header = ({
           state={state}
           toggleDrawer={toggleDrawer}
           chartResults={chartResults}
+          peakResults={peakResults}
           isLoading={isLoading}
           setIsLoading={setIsLoading}
           onLoad={onLoad}

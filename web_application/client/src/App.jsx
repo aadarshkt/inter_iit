@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import MainPage from "./pages/main";
 import Welcome from "./components/Welcome";
-import { parseCSV } from "./utils/parseCSV";
+import { parseCSV, parsePeakCSV } from "./utils/parseCSV";
 import MiniSpinner from "./components/MiniSpinner.jsx";
 
 const App = () => {
@@ -11,6 +11,7 @@ const App = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [chartData, setChartData] = useState({});
+  const [peakData, setPeakData] = useState({});
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -27,12 +28,11 @@ const App = () => {
   const handleChartResults = (data) => {
     const resultData = parseCSV(data);
     setChartData(resultData);
-    console.log(chartData);
   };
-
-  useEffect(() => {
-    console.log(chartData);
-  }, [chartData]);
+  const handlePeakResults = (data) => {
+    const resultData = parsePeakCSV(data);
+    setPeakData(resultData);
+  };
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-[url('./assets/isroBackground.jpg')] bg-cover">
@@ -40,6 +40,7 @@ const App = () => {
         state={state}
         toggleDrawer={toggleDrawer}
         chartResults={handleChartResults}
+        peakResults={handlePeakResults}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
       />
@@ -52,7 +53,7 @@ const App = () => {
         ) : Object.keys(chartData).length === 0 ? (
           <Welcome onClickInputData={toggleDrawer} />
         ) : (
-          <MainPage chartData={chartData} />
+          <MainPage chartData={chartData} peakData={peakData} />
         )}
       </div>
     </div>
