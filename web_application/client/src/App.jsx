@@ -54,20 +54,6 @@ const App = () => {
         ) : (
           <MainPage chartData={chartData} />
         )}
-        {/* {Object.keys(chartData).length === 0 ? (
-          <Welcome onClickInputData={toggleDrawer} />
-        ) : (
-          <div className="flex grow">
-            {isLoading ? (
-              <>
-                <div>Loading...</div>
-                <MiniSpinner />
-              </>
-            ) : (
-              <MainPage chartData={chartData} />
-            )}
-          </div>
-        )} */}
       </div>
     </div>
   );
