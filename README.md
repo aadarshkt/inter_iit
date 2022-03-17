@@ -12,7 +12,7 @@
  ```  
 git clone https://github.com/aadarsh-kt/inter_iit.git  
 ``` 
-2. Navigate to client folder using 
+2. Navigate to client folder
  ```
  cd web_application
  cd client
@@ -21,7 +21,7 @@ git clone https://github.com/aadarsh-kt/inter_iit.git
 ``` 
 npm install
 ```
-4. To start local development server use below command.
+4. Start local development server
 ```
 npm start
 ```
