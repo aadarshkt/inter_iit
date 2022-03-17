@@ -26,16 +26,18 @@ npm install
 npm start
 ```
 5. New tab in browser will open.
-14. In another terminal navigate to web_application -> server.
+6. In another terminal navigate to web_application.
 ```
 cd web_application
-cd server
 ```
-6. Create a virtual environment for flask server.
+7. Create a virtual environment for flask server.
 ```
-
-8. To run the server.
+source server/Scripts/activate
 ```
+8. Flask server gets started.
+9. To run the server.
+```
+$ cd server
 $ export FLASK_ENV=development
 $ flask run
 ```
