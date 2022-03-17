@@ -12,10 +12,6 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [chartData, setChartData] = useState([]);
 
-  const handleLoading = (loadState) => {
-    setIsLoading(loadState);
-  };
-
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -47,7 +43,7 @@ const App = () => {
         toggleDrawer={toggleDrawer}
         chartResults={handleChartResults}
         isLoading={isLoading}
-        onLoad={handleLoading}
+        setIsLoading={setIsLoading}
       />
       <div className="flex grow">
         {chartData.length === 0 ? (
@@ -55,7 +51,10 @@ const App = () => {
         ) : (
           <div className="flex grow">
             {isLoading ? (
-              <MiniSpinner />
+              <>
+                <div>Loading...</div>
+                <MiniSpinner />
+              </>
             ) : (
               <DetectionChart chartData={chartData} />
             )}

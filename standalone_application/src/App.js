@@ -42,7 +42,7 @@ const App = () => {
         toggleDrawer={toggleDrawer}
         chartResults={handleChartResults}
       />
-      <div className="flex grow">
+      <div className="flex grow" >
         {chartData.length === 0 ? (
           <Welcome onClickInputData={toggleDrawer} />
         ) : (

@@ -44,7 +44,13 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-const Sidebar = ({ state, toggleDrawer, chartResults, isLoading, onLoad }) => {
+const Sidebar = ({
+  state,
+  toggleDrawer,
+  chartResults,
+  setIsLoading,
+  isLoading,
+}) => {
   const [value, setValue] = useState(new Date("2009-01-01T21:11:54"));
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -58,12 +64,13 @@ const Sidebar = ({ state, toggleDrawer, chartResults, isLoading, onLoad }) => {
   const handleFileSubmit = async (e) => {
     e.preventDefault();
     if (!file) return setErrorMessage("File Not Selected");
-    onLoad(true);
+    setIsLoading(true);
     toggleDrawer(`left`, false);
     try {
       const res = await postFile({ file });
-      onLoad(false);
-      chartResults(res.data);
+      console.log(res);
+      await chartResults(res.data);
+      setIsLoading(false);
     } catch (error) {
       setErrorMessage(`${error.errorMessage}`);
       console.log(error.errorMessage);
@@ -116,7 +123,11 @@ const Sidebar = ({ state, toggleDrawer, chartResults, isLoading, onLoad }) => {
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
-            <Button className="bg-purple-600 mt-5" variant="contained">
+            <Button
+              className="bg-purple-600 mt-5"
+              disabled={isLoading}
+              variant="contained"
+            >
               Submit
             </Button>
           </div>
