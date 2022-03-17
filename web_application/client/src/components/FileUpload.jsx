@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
-import Upload from '../assets/fileUpload.png'
+import Upload from "../assets/fileUpload.png";
 import LaunchIcon from "@mui/icons-material/Launch";
 
 const FileUpload = () => {
@@ -13,12 +13,13 @@ const FileUpload = () => {
       >
         <Box className="flex justify-between items-center w-full px-5 py-4">
           <p className="text-5xl">Website Name</p>
-          <a
-            href="/"
-            target="_blank"
-            style={{ "backgroundColor": "#1976d2" }}
-          >
-            <Button className="text-lg" size="large" variant="contained" endIcon={<LaunchIcon />}>
+          <a href="/" target="_blank" style={{ backgroundColor: "#1976d2" }}>
+            <Button
+              className="text-lg"
+              size="large"
+              variant="contained"
+              endIcon={<LaunchIcon />}
+            >
               Manual
             </Button>
           </a>

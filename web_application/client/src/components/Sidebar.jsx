@@ -8,7 +8,7 @@ import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import { TextField } from "@mui/material";
-import { postFile } from "../api";
+import { postFile } from "../api/index";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import PropTypes from "prop-types";
@@ -62,10 +62,10 @@ const Sidebar = ({ state, toggleDrawer, chartResults, isLoading, onLoad }) => {
     toggleDrawer(`left`, false);
     try {
       const res = await postFile({ file });
-      onLoad(false)
+      onLoad(false);
       chartResults(res.data);
     } catch (error) {
-      setErrorMessage(`${error.errorMessage}`)
+      setErrorMessage(`${error.errorMessage}`);
       console.log(error.errorMessage);
     }
   };

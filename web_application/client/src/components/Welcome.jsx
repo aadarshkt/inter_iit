@@ -10,7 +10,10 @@ const Welcome = ({ onClickInputData }) => {
           <button className="pl-5 font-bold w-1/3 pr-5 pt-2 pb-2 bg-blue-500 rounded-lg text-white">
             Downlaod Manual
           </button>
-          <button onClick={onClickInputData(`left`, true)} className="text-white font-bold pl-5  w-1/3 pr-5 pt-2 pb-2 bg-blue-500 rounded-lg hover:bg-blue-500">
+          <button
+            onClick={onClickInputData(`left`, true)}
+            className="text-white font-bold pl-5  w-1/3 pr-5 pt-2 pb-2 bg-blue-500 rounded-lg hover:bg-blue-500"
+          >
             Input Data
           </button>
         </div>

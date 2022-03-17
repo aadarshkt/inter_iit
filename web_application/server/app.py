@@ -2,10 +2,9 @@ from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
 from flask_cors import cross_origin
 from helpers import allow_file, save_file
-from ml_model import curve_fit, curve_param
+from model.ml_model import curve_fit
 
 app = Flask(__name__)
-
 
 CORS(app)
 
