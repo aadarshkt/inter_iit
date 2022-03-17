@@ -31,7 +31,10 @@ npm start
 cd web_application
 cd server
 ```
-6. To run the server.
+6. Create a virtual environment for flask server.
+```
+
+8. To run the server.
 ```
 $ export FLASK_ENV=development
 $ flask run
