@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect,useMemo } from "react";
+import React, { useRef, useState, useEffect, useMemo } from "react";
 import CurveTypes from "./CurveTypes";
 import { Line } from "react-chartjs-2";
 import {
@@ -29,16 +29,12 @@ ChartJS.register(
 );
 
 const chartSettings = {
-  label: "Rate",
   fill: false,
   lineTension: 0.05,
-  backgroundColor: "rgba(75,192,192,0.4)",
-  borderColor: "rgba(75,192,192,1)",
   pointBorderColor: "rgba(75,192,192,1)",
   pointBackgroundColor: "rgba(75,192,192,1)",
   pointBorderWidth: 1,
   pointHoverRadius: 6,
-  pointHoverBackgroundColor: "rgba(75,192,192,1)",
   pointHoverBorderColor: "black",
   pointHoverBorderWidth: 5,
   pointRadius: 1,
@@ -114,16 +110,24 @@ const DetectionChart = ({ chartData, isOpen }) => {
   const chartRef = useRef(null);
 
   const { time, rate, convolve, stitch } = chartData;
-  const datasetArr = useMemo(
-    () => [
-      {
-        ...chartSettings,
-        data: value === "raw" ? rate : convolve,
-      },
-    ],
-    [convolve, rate, value]
-  );
-
+  const datasetArr = [
+    {
+      ...chartSettings,
+      label: "Rate",
+      borderColor: "rgba(75,192,192,1)",
+      backgroundColor: "rgba(75,192,192,0.4)",
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      data: value === "raw" ? rate : convolve,
+    },
+    {
+      ...chartSettings,
+      label: "Fit Curve",
+      borderColor: "rgba(255, 10, 63, 0.5)",
+      backgroundColor: "rgba(255, 10, 63, 1)",
+      pointHoverBackgroundColor: "rgba(255, 10, 63, 1)",
+      data: stitch,
+    },
+  ];
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -161,9 +165,9 @@ const DetectionChart = ({ chartData, isOpen }) => {
     else setWidth("w-4/5");
   }, [isOpen]);
 
-  useEffect(()=>{
-    console.log(datasetArr);
-  },[datasetArr]);  
+  // useEffect(() => {
+  //   console.log(datasetArr);
+  // }, [datasetArr]);
 
   const data = {
     labels: time,
@@ -193,6 +197,7 @@ const DetectionChart = ({ chartData, isOpen }) => {
           <div className="w-full">
             <Line ref={chartRef} data={data} options={lineOptions} />
             <ChartFooter
+              rawOrConvolve={value}
               handleStitch={handleStitch}
               resetZoom={resetZoom}
               zoomIn={zoomIn}

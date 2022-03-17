@@ -5,25 +5,52 @@ import ResetIcon from "@mui/icons-material/RestartAlt";
 import ToolTip from "@mui/material/Tooltip";
 import { Button } from "@mui/material";
 
-const ChartFooter = ({ resetZoom, zoomIn, zoomOut, handleStitch }) => {
+const ChartFooter = ({
+  rawOrConvolve,
+  resetZoom,
+  zoomIn,
+  zoomOut,
+  handleStitch,
+}) => {
   return (
     <div className="flex justify-between">
       <div className="flex justify-evenly w-1/2">
-        <Button
-          style={{ backgroundColor: "rgb(25, 118, 210)" }}
-          variant="contained"
-        >
-          Toggle Peaks
-        </Button>
-        <Button
-          variant="contained"
-          style={{ backgroundColor: "rgb(25, 118, 210)" }}
-          onClick={()=>{
-            handleStitch();
-          }}
-        >
-          Toggle Fit Curve
-        </Button>
+        {rawOrConvolve === "raw" ? (
+          <>
+            <Button
+              disabled
+              style={{ backgroundColor: "rgb(25, 118, 210)" }}
+              variant="contained"
+            >
+              Toggle Peaks
+            </Button>
+            <Button
+            disabled
+              variant="contained"
+              style={{ backgroundColor: "rgb(25, 118, 210)" }}
+            >
+              Toggle Fit Curve
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              style={{ backgroundColor: "rgb(25, 118, 210)" }}
+              variant="contained"
+            >
+              Toggle Peaks
+            </Button>
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "rgb(25, 118, 210)" }}
+              onClick={() => {
+                handleStitch();
+              }}
+            >
+              Toggle Fit Curve
+            </Button>
+          </>
+        )}
       </div>
       <div className="flex justify-end w-full items-center">
         <ToolTip title="Zoom Out" arrow>
