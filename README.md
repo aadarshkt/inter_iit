@@ -12,9 +12,10 @@
  ```  
 git clone https://github.com/aadarsh-kt/inter_iit.git  
 ``` 
-2. Navigate to web_application folder using 
+2. Navigate to client folder using 
  ```
  cd web_application
+ cd client
  ```
 3. Install node modules.
 ``` 
