@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useMemo } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import CurveTypes from "./CurveTypes";
 import { Line } from "react-chartjs-2";
 import {
@@ -39,6 +39,19 @@ const chartSettings = {
   pointHoverBorderWidth: 5,
   pointRadius: 1,
   pointHitRadius: 10,
+};
+
+const additionalChartSetting = {
+  label: "Rate",
+  borderColor: "rgba(75,192,192,1)",
+  backgroundColor: "rgba(75,192,192,0.4)",
+  pointHoverBackgroundColor: "rgba(75,192,192,1)",
+};
+const additionalFitChartSetting = {
+  label: "FIT_CURVE",
+  borderColor: "rgba(255, 10, 63, 0.5)",
+  backgroundColor: "rgba(255, 10, 63, 1)",
+  pointHoverBackgroundColor: "rgba(255, 10, 63, 1)",
 };
 
 const optionSettings = {
@@ -107,49 +120,61 @@ const DetectionChart = ({ chartData, isOpen }) => {
   const [value, setValue] = useState("raw");
   const [width, setWidth] = useState("w-full");
   const [stitchOpen, setStitchOpen] = useState(false);
+  const handleStitch = () => {
+    setStitchOpen(!stitchOpen);
+    console.log(stitchOpen);
+    console.log(datasetArr);
+  };
   const chartRef = useRef(null);
 
   const { time, rate, convolve, stitch } = chartData;
-  const datasetArr = [
+
+  const [datasetArr, setDatasetArr] = useState([
     {
       ...chartSettings,
-      label: "Rate",
-      borderColor: "rgba(75,192,192,1)",
-      backgroundColor: "rgba(75,192,192,0.4)",
-      pointHoverBackgroundColor: "rgba(75,192,192,1)",
-      data: value === "raw" ? rate : convolve,
+      ...additionalChartSetting,
+      data: rate,
     },
-    {
-      ...chartSettings,
-      label: "Fit Curve",
-      borderColor: "rgba(255, 10, 63, 0.5)",
-      backgroundColor: "rgba(255, 10, 63, 1)",
-      pointHoverBackgroundColor: "rgba(255, 10, 63, 1)",
-      data: stitch,
-    },
-  ];
+  ]);
+
+  useEffect(() => {
+    if (value === "raw")
+      setDatasetArr([
+        {
+          ...chartSettings,
+          ...additionalChartSetting,
+          data: rate,
+        },
+      ]);
+    else {
+      if (stitchOpen)
+        setDatasetArr([
+          {
+            ...chartSettings,
+            ...additionalFitChartSetting,
+            data: stitch,
+          },
+          {
+            ...chartSettings,
+            ...additionalChartSetting,
+            data: convolve,
+          },
+        ]);
+      else
+        setDatasetArr([
+          {
+            ...chartSettings,
+            ...additionalChartSetting,
+            data: convolve,
+          },
+        ]);
+    }
+  }, [value, rate, convolve, stitchOpen, stitch]);
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
-  const handleStitch = () => {
-    setStitchOpen(!stitchOpen);
-    console.log(stitchOpen);
-    if (stitchOpen)
-      datasetArr.push({
-        ...chartSettings,
-        data: stitch,
-      });
-    else
-      datasetArr.splice(
-        datasetArr.indexOf({
-          ...chartSettings,
-          data: stitch,
-        }),
-        1
-      );
-    console.log(datasetArr);
-  };
+
   const resetZoom = () => {
     chartRef.current.resetZoom();
   };
