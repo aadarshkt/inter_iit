@@ -68,12 +68,13 @@ const Sidebar = ({
     toggleDrawer(`left`, false);
     try {
       const res = await postFile({ file });
-      console.log(res);
+      console.log(res.data);
       await chartResults(res.data);
-      setIsLoading(false);
     } catch (error) {
       setErrorMessage(`${error.errorMessage}`);
-      console.log(error.errorMessage);
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 

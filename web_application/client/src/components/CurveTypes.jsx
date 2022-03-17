@@ -6,12 +6,7 @@ const CurveTypes = () => {
   return (
     <>
       <FormControlLabel value="raw" control={<Radio />} label="Raw" />
-      <FormControlLabel
-        value="convolve"
-        control={<Radio />}
-        label="Convolved"
-      />
-      <FormControlLabel value="peaks" control={<Radio />} label="Peaks" />
+      <FormControlLabel value="convolve" control={<Radio />} label="Convolved" />
     </>
   );
 };

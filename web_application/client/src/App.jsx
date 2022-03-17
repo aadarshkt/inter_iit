@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
-import DetectionChart from "./components/DetectionChart";
+import MainPage from './pages/main'
 import Welcome from "./components/Welcome";
 import { parseCSV } from "./utils/parseCSV";
 import MiniSpinner from "./components/MiniSpinner.jsx";
@@ -20,9 +20,7 @@ const App = () => {
       return;
     }
 
-    console.log(anchor + " " + open);
     setState({ ...state, [anchor]: open });
-    console.log(state);
   };
 
   //Convert CSV response to required object
@@ -46,7 +44,7 @@ const App = () => {
         setIsLoading={setIsLoading}
       />
       <div className="flex grow">
-        {chartData.length === 0 ? (
+        {Object.keys(chartData).length === 0 ? (
           <Welcome onClickInputData={toggleDrawer} />
         ) : (
           <div className="flex grow">
@@ -56,7 +54,7 @@ const App = () => {
                 <MiniSpinner />
               </>
             ) : (
-              <DetectionChart chartData={chartData} />
+              <MainPage chartData={chartData} />
             )}
           </div>
         )}
