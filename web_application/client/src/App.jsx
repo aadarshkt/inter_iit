@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
-import MainPage from './pages/main'
+import MainPage from "./pages/main";
 import Welcome from "./components/Welcome";
 import { parseCSV } from "./utils/parseCSV";
 import MiniSpinner from "./components/MiniSpinner.jsx";
@@ -10,7 +10,7 @@ const App = () => {
     left: false,
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [chartData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState({});
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -44,7 +44,17 @@ const App = () => {
         setIsLoading={setIsLoading}
       />
       <div className="flex grow">
-        {Object.keys(chartData).length === 0 ? (
+        {isLoading ? (
+          <>
+            <div>Loading...</div>
+            <MiniSpinner />
+          </>
+        ) : Object.keys(chartData).length === 0 ? (
+          <Welcome onClickInputData={toggleDrawer} />
+        ) : (
+          <MainPage chartData={chartData} />
+        )}
+        {/* {Object.keys(chartData).length === 0 ? (
           <Welcome onClickInputData={toggleDrawer} />
         ) : (
           <div className="flex grow">
@@ -57,7 +67,7 @@ const App = () => {
               <MainPage chartData={chartData} />
             )}
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
