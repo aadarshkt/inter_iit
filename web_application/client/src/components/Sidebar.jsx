@@ -18,7 +18,6 @@ const ALLOWED_EXTENSION = ["lc", "txt", "xls", "csv", "dat", "fits"];
 //Tab Panel props
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -45,7 +44,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-const Sidebar = ({ state, toggleDrawer, chartResults }) => {
+const Sidebar = ({ state, toggleDrawer, chartResults, isLoading, onLoad }) => {
   const [value, setValue] = useState(new Date("2009-01-01T21:11:54"));
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -59,9 +58,16 @@ const Sidebar = ({ state, toggleDrawer, chartResults }) => {
   const handleFileSubmit = async (e) => {
     e.preventDefault();
     if (!file) return setErrorMessage("File Not Selected");
-    const res = await postFile({ file });
-    chartResults(res.data);
+    onLoad(true);
     toggleDrawer(`left`, false);
+    try {
+      const res = await postFile({ file });
+      onLoad(false)
+      chartResults(res.data);
+    } catch (error) {
+      setErrorMessage(`${error.errorMessage}`)
+      console.log(error.errorMessage);
+    }
   };
 
   const handleDateChange = (newDate) => {
@@ -99,7 +105,7 @@ const Sidebar = ({ state, toggleDrawer, chartResults }) => {
           <div className="flex flex-col h-full justify-end w-full">
             <p className="text-xl text-center w-full">Specify date for</p>
             <p className="mb-10 text-xl text-center w-full">
-              Solar Flare Detection
+              Solar bursts Detection
             </p>
             <LocalizationProvider dateAdapter={DateAdapter}>
               <DesktopDatePicker

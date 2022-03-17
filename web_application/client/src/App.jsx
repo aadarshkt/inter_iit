@@ -3,13 +3,18 @@ import Header from "./components/Header";
 import DetectionChart from "./components/DetectionChart";
 import Welcome from "./components/Welcome";
 import { parseCSV } from "./utils/parseCSV";
+import MiniSpinner from "./components/MiniSpinner.jsx";
 
 const App = () => {
   const [state, setState] = useState({
     left: false,
   });
-
+  const [isLoading, setIsLoading] = useState(false);
   const [chartData, setChartData] = useState([]);
+
+  const handleLoading = (loadState) => {
+    setIsLoading(loadState);
+  };
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -19,7 +24,9 @@ const App = () => {
       return;
     }
 
+    console.log(anchor + " " + open);
     setState({ ...state, [anchor]: open });
+    console.log(state);
   };
 
   //Convert CSV response to required object
@@ -39,12 +46,20 @@ const App = () => {
         state={state}
         toggleDrawer={toggleDrawer}
         chartResults={handleChartResults}
+        isLoading={isLoading}
+        onLoad={handleLoading}
       />
       <div className="flex grow">
         {chartData.length === 0 ? (
           <Welcome onClickInputData={toggleDrawer} />
         ) : (
-          <DetectionChart chartData={chartData} />
+          <div className="flex grow">
+            {isLoading ? (
+              <MiniSpinner />
+            ) : (
+              <DetectionChart chartData={chartData} />
+            )}
+          </div>
         )}
       </div>
     </div>

@@ -152,7 +152,7 @@ const DetectionChart = ({chartData}) => {
     <div className="flex justify-center items-center w-full">
       <div className="flex flex-col w-4/5 items-center bg-white rounded-md pr-10 pl-5 pb-5 m-5 shadow-lg">
         <p className="font-bold text-xl p-3">
-          Detection of solar flares in X-Ray light curve data
+          Detection of solar bursts in X-Ray light curve data
         </p>
 
         <div
