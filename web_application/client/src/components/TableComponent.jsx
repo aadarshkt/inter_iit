@@ -52,8 +52,10 @@ const TableComponent = ({ tableData, bgFlux }) => {
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <caption>
-              The vertical blue lines in the fitted curve do not indicate the
-              bursts' start and end time.
+              <strong>
+                * The vertical blue lines in the fitted curve do not indicate
+                the bursts' start and end time.
+              </strong>
             </caption>
             <TableHead>
               <TableRow>
