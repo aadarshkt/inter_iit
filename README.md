@@ -145,12 +145,16 @@ npm start
   v) The time and rate for the extended curve corresponding to each peak is stored in newcurve 
   vi) Scaled curve contains the fitted rate for peak width
 8. Startidx() function is then called to get start and end index corresponding to start and end time of a burst
-  i) The start and end time are calculated as the point where the background flux+standard deviation meet the newcurve(i.E.Extended fitted curve)
-  ii) unfit peaks are also eliminated in this function where 
-    i) The peak flux is lower than background flux +(115% of standard deviation)
-    ii) The extended fitted curve cuts the background+standard deviation just once
+  i) The start and end time are calculated as the point where the background flux+standard deviation meet the newcurve (i.e.Extended fitted curve)
+  ii) Unfit peaks are also eliminated in this function where the peak flux is lower than background flux +(115% of standard deviation) and the extended fitted curve cuts the background+standard deviation just once
 9. Params function is called which then converts all the obtained information for all the peaks in a curve in a dataframe and classifies the peak on the basis of flux
-10. Sticher function is then called which stiches the scaled curve(i.E. Fitted curve for peak width) for multiple peaks and background data.
+10. Stitcher function is then called which stiches the scaled curve(i.E. Fitted curve for peak width) for multiple peaks and background data.
+
+# Limitations of ml-model
+
+
+1. In order to display the fitted curve over the convolved data without discontinuities we have implemented a stitch function, this function uses the median in place of the unavailable fit for portion between 2 peaks and because of that in certain parts the gradient of the fitted curve appears to large and distorts the fitted curve.
+2. Incase of a very large rise or decay time where the start and end time extend beyond the duration of measurement, the curve is not able to fit optimally due to lack of information.
 
 
  
