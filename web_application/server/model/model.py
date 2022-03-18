@@ -15,8 +15,6 @@ from scipy.optimize import leastsq
 from scipy.special import erf
 from os.path import join, dirname, realpath
 
-from sqlalchemy import column
-
 
 class Curve_Fitter:
     # data_path to initialize the dataframe which we will work on. Only required parameter.
