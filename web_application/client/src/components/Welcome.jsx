@@ -7,7 +7,16 @@ const Welcome = ({ onClickInputData }) => {
         <p className="text-white text-6xl font-bold">Solar Bursts</p>
         <p className="text-white text-6xl font-bold"> Detection Portal</p>
         <div className="flex p-10 w-full justify-evenly">
-          <button className="text-xl pl-5 font-bold w-1/3 pr-5 py-3 bg-blue-500 rounded-lg text-white">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              window.open(
+                "https://github.com/aadarsh-kt/inter_iit#readme",
+                "_blank"
+              );
+            }}
+            className="pl-5 font-bold w-1/3 pr-5 pt-2 pb-2 bg-blue-500 rounded-lg text-white"
+          >
             Open Manual
           </button>
           <button

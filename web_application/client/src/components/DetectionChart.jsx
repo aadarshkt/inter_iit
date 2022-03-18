@@ -17,6 +17,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import ChartFooter from "./ChartFooter";
+import RemarkComponent from "./RemarkComponent";
 
 //registering utils
 ChartJS.register(
@@ -284,7 +285,7 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
 
    useEffect(() => {
       if (isOpen) setWidth("w-4/5");
-      else setWidth("w-4/5");
+      else setWidth("w-full");
    }, [isOpen]);
 
    const data = {
@@ -301,19 +302,7 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
                Detection of solar bursts in X-Ray light curve data
             </p>
 
-            <div className="flex flex-col-reverse items-center w-full">
-               <div className="w-full">
-                  <Line ref={chartRef} data={data} options={lineOptions} />{" "}
-                  {/* Line Chart Component */}
-                  <ChartFooter
-                     rawOrConvolve={value}
-                     handleStitch={handleStitch}
-                     handlePeak={handleShowPeak}
-                     resetZoom={resetZoom}
-                     zoomIn={zoomIn}
-                     zoomOut={zoomOut}
-                  />
-               </div>
+            <div className="flex flex-col items-center w-full">
                <div className="px-4 mx-3 text-center">
                   <FormControl>
                      <FormLabel
@@ -333,6 +322,19 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
                      </RadioGroup>
                   </FormControl>
                </div>
+               <div className="w-full">
+                  {/* Line Chart Component */}
+                  <Line ref={chartRef} data={data} options={lineOptions} />{" "}
+                  <ChartFooter
+                     rawOrConvolve={value}
+                     handleStitch={handleStitch}
+                     handlePeak={handleShowPeak}
+                     resetZoom={resetZoom}
+                     zoomIn={zoomIn}
+                     zoomOut={zoomOut}
+                  />
+               </div>
+               <RemarkComponent />
             </div>
          </div>
       </div>

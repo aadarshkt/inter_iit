@@ -28,7 +28,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const TableComponent = ({ tableData, bgFlux }) => {
+const TableComponent = ({ chartData, tableData, bgFlux }) => {
   const { catClass, decayTime, riseTime, peakFlux, peakArr, startArr, endArr } =
     tableData;
 
@@ -52,8 +52,10 @@ const TableComponent = ({ tableData, bgFlux }) => {
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <caption>
-              The vertical blue lines in the fitted curve do not indicate the
-              bursts' start and end time.
+              <strong>
+                * The vertical blue lines in the fitted curve do not indicate
+                the bursts' start and end time.
+              </strong>
             </caption>
             <TableHead>
               <TableRow>
@@ -86,7 +88,7 @@ const TableComponent = ({ tableData, bgFlux }) => {
                     {peakFlux[index]}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {peakArr[index]}
+                    {chartData.origTime[peakArr[index]]}
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {startArr[index]}
