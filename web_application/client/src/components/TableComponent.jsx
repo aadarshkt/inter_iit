@@ -31,6 +31,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const TableComponent = ({ tableData, bgFlux }) => {
   const { catClass, decayTime, riseTime, peakFlux, peakArr, startArr, endArr } =
     tableData;
+
+  let textFile = `Background Flux \t ${bgFlux}\n\n\n`;
+
+  catClass.forEach((element, index) => {
+    textFile =
+      textFile +
+      `Peak-${index + 1}\n==========\nCategory : ${element}\nDecay Time : ${
+        decayTime[index]
+      }\nRise TIme : ${riseTime[index]}\nPeak Flux : ${
+        peakFlux[index]
+      }\nPeak Time : ${peakArr[index]}\nStart Time : ${
+        startArr[index]
+      }\nEnd Time : ${endArr[index]}\n\n`;
+  });
+
   return (
     <>
       {tableData.catClass.length > 0 ? (
@@ -85,11 +100,21 @@ const TableComponent = ({ tableData, bgFlux }) => {
           </Table>
         </TableContainer>
       ) : (
-        <div className="text-center text-5xl py-5 underline">No Peaks Detected</div>
+        <div className="text-center text-5xl py-5 underline">
+          No Peaks Detected
+        </div>
       )}
       <div className="text-2xl p-5">
         Background Flux: <strong>{bgFlux} ct/s</strong>
       </div>
+      <a
+        href={`data:attachment/text, ${encodeURI(textFile)}`}
+        target="_blank"
+        download="solarlog.txt"
+        rel="nore noreferrer"
+      >
+        Download Logs
+      </a>
     </>
   );
 };
