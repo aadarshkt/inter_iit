@@ -9,6 +9,7 @@ const Header = ({
   isLoading,
   setIsLoading,
   onLoad,
+  handleBgFlux,
 }) => {
   const downloadManual = () => {};
 
@@ -23,6 +24,7 @@ const Header = ({
           isLoading={isLoading}
           setIsLoading={setIsLoading}
           onLoad={onLoad}
+          handleBgFlux={handleBgFlux}
         />
       </div>
     </div>

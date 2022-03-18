@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useMemo } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import CurveTypes from "./CurveTypes";
 import { Line } from "react-chartjs-2";
 import {
@@ -119,6 +119,21 @@ const optionSettings = {
     zoom: zoomSettings,
   },
 };
+const peakLineOptionAnno = {
+  type: "line",
+  borderColor: "black",
+  borderWidth: 4,
+  scaleID: "x",
+};
+
+const labelOptionsAnno = {
+  enabled: true,
+  backgroundColor: "black",
+  borderColor: "black",
+  borderRadius: 10,
+  borderWidth: 2,
+  position: "start",
+};
 
 const DetectionChart = ({ chartData, peakData, isOpen }) => {
   const [value, setValue] = useState("raw");
@@ -134,6 +149,7 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
   const chartRef = useRef(null);
 
   const { origTime, time, rate, convolve, stitch } = chartData;
+  console.log(chartData);
   const {
     catClass,
     decayTime,
@@ -154,27 +170,12 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
 
   const [lineOptions, setLineOptions] = useState(optionSettings);
 
-  const peakLineOption = {
-    type: "line",
-    borderColor: "black",
-    borderWidth: 4,
-    scaleID: "x",
-  };
-
-  const labelOptions = {
-    enabled: true,
-    backgroundColor: "black",
-    borderColor: "black",
-    borderRadius: 10,
-    borderWidth: 2,
-    position: "start",
-  };
   let annotateArr = [];
   peakArr.forEach((value) => {
     annotateArr.push({
-      ...peakLineOption,
+      ...peakLineOptionAnno,
       label: {
-        ...labelOptions,
+        ...labelOptionsAnno,
         content: [`Peak Time: ${origTime[value]}`],
       },
       value: (Math.round(value / 50) * 50) / 50,
@@ -195,12 +196,12 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
         {
           ...chartSettings,
           ...additionalFitChartSetting,
-          data: stitch,
+          data: convolve,
         },
         {
           ...chartSettings,
           ...additionalChartSetting,
-          data: convolve,
+          data: stitch,
         },
       ]);
     };
@@ -217,12 +218,12 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
 
     const peakLineOption = {
       ...optionSettings,
-      // onClick: (e, element) => {
-      //   if (element.length > 0) {
-      //     var ind = element[0].index;
-      //     alert(`${chartData.x[ind]}, ${chartData.y[ind]}`);
-      //   }
-      // },
+      onClick: (e, element) => {
+        if (element.length > 0) {
+          var ind = element[0].index;
+          alert(`${chartData.x[ind]}, ${chartData.y[ind]}`);
+        }
+      },
       plugins: {
         zoom: zoomSettings,
         annotation: {

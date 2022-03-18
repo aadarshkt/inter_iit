@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Header from "./components/Header";
 import MainPage from "./pages/main";
 import Welcome from "./components/Welcome";
@@ -12,7 +12,11 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [chartData, setChartData] = useState({});
   const [peakData, setPeakData] = useState({});
-
+  const [bgFlux, setBgFlux] = useState("");
+  const handleBgFLux = (flux) => {
+    console.log(flux);
+    setBgFlux(flux);
+  };
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -43,6 +47,7 @@ const App = () => {
         peakResults={handlePeakResults}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
+        handleBgFLux={handleBgFLux}
       />
       <div className="flex grow">
         {isLoading ? (
@@ -53,7 +58,7 @@ const App = () => {
         ) : Object.keys(chartData).length === 0 ? (
           <Welcome onClickInputData={toggleDrawer} />
         ) : (
-          <MainPage chartData={chartData} peakData={peakData} />
+          <MainPage chartData={chartData} peakData={peakData} bgFlux={bgFlux} />
         )}
       </div>
     </div>

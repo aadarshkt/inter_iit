@@ -2,7 +2,7 @@ import React from "react";
 import DetectionChart from "../components/DetectionChart";
 import DataDrawer from "../components/DataDrawer";
 
-const MainPage = ({ chartData, peakData }) => {
+const MainPage = ({ chartData, peakData, bgFlux }) => {
   const [isOpen, setIsOpen] = React.useState(true);
 
   const handleOpen = (open) => {
@@ -16,7 +16,7 @@ const MainPage = ({ chartData, peakData }) => {
         isOpen={isOpen}
         peakData={peakData}
       />
-      <DataDrawer handleOpen={handleOpen} />
+      <DataDrawer handleOpen={handleOpen} data={peakData} bgFlux={bgFlux} />
     </>
   );
 };

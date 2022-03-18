@@ -56,8 +56,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-start",
 }));
 
-
-export default function PersistentDrawerRight({handleOpen}) {
+export default function PersistentDrawerRight({ handleOpen, data, bgFlux }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
 
@@ -68,7 +67,7 @@ export default function PersistentDrawerRight({handleOpen}) {
 
   const handleDrawerClose = () => {
     setOpen(false);
-    handleOpen(open); 
+    handleOpen(open);
   };
 
   // if(!open){
@@ -140,6 +139,8 @@ export default function PersistentDrawerRight({handleOpen}) {
               </IconButton>
             </DrawerHeader>
             <Divider />
+            {JSON.stringify(data)}
+            {<div>BGFLUX : {bgFlux}</div>}
           </Drawer>
         </>
       )}

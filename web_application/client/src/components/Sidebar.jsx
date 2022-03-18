@@ -51,6 +51,7 @@ const Sidebar = ({
   peakResults,
   setIsLoading,
   isLoading,
+  handleBgFlux,
 }) => {
   const [value, setValue] = useState(new Date("2009-01-01T21:11:54"));
   const [file, setFile] = useState(null);
@@ -71,6 +72,8 @@ const Sidebar = ({
       const res = await postFile({ file });
       await peakResults(res.data);
       await chartResults(res.data);
+      console.log(res.data.backgroundflux);
+      await handleBgFlux(res.data.backgroundflux);
     } catch (error) {
       setErrorMessage(`${error.errorMessage}`);
     } finally {
