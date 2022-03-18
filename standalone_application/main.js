@@ -65,6 +65,7 @@ function createWindow() {
          console.log(`stderr: ${stderr}`);
       });
    });
+
    // Open the DevTools.
    // mainWindow.webContents.openDevTools()
 }

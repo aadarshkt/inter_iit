@@ -7,9 +7,17 @@ const Welcome = ({ onClickInputData }) => {
             <p className="text-white text-6xl font-bold">Solar Bursts</p>
             <p className="text-white text-6xl font-bold"> Detection Portal</p>
             <div className="flex p-10 w-full justify-evenly">
-               <button className="text-xl pl-5 font-bold w-1/3 pr-5 py-3 bg-blue-500 rounded-lg text-white">
+               <button
+                  onClick={(e) => {
+                     e.preventDefault();
+                     require("shell").openExternal(
+                        "https://github.com/aadarsh-kt/inter_iit#readme"
+                     );
+                  }}
+                  className="pl-5 font-bold w-1/3 pr-5 pt-2 pb-2 bg-blue-500 rounded-lg text-white"
+               >
                   Open Manual
-               </button>
+               </button>{" "}
                <button
                   onClick={onClickInputData(`left`, true)}
                   className="text-xl text-white font-bold pl-5 w-1/3 pr-5 py-3 bg-blue-500 rounded-lg hover:bg-blue-500"
