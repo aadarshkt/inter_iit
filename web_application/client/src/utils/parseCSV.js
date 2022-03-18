@@ -1,13 +1,13 @@
 import Papa from "papaparse";
 
-let peakArr = []; 
 export const parsePeakCSV = (csv) => {
   let catClass = [];
   let decayTime = [];
   let riseTime = [];
   let peakFlux = [];
-  let xPeakArr = [];
-  let yPeakArr = [];
+  let peakArr = [];
+  let startArr = [];
+  let endArr = [];
 
   const obj = Papa.parse(csv.peakParams);
 
@@ -18,6 +18,8 @@ export const parsePeakCSV = (csv) => {
       riseTime.push(value[2]);
       peakFlux.push(value[3]);
       peakArr.push(value[4]);
+      startArr.push(value[5]);
+      endArr.push(value[6]);
     }
   });
   const result = {
@@ -25,9 +27,9 @@ export const parsePeakCSV = (csv) => {
     decayTime,
     riseTime,
     peakFlux,
-    xPeakArr,
-    yPeakArr,
     peakArr,
+    startArr,
+    endArr,
   };
   return result;
 };
@@ -39,17 +41,15 @@ export const parseCSV = (csv) => {
   let convolveArr = [];
   let stitchArr = [];
   const obj = Papa.parse(csv.curveData);
-  console.log(peakArr);
   obj.data.forEach((value, index) => {
     origTime.push(value[0]);
-    if (peakArr.includes(index) || (index !== 0 && index % 50 === 0)) {
+    if (index !== 0 && index % 50 === 0) {
       timeArr.push(value[0]);
       rateArr.push(value[1]);
       convolveArr.push(value[2]);
       stitchArr.push(value[3]);
     }
   });
-  console.log(timeArr);
   const result = {
     origTime,
     time: timeArr,
