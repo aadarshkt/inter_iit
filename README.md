@@ -1,3 +1,10 @@
+# Index of contents
+
+1. [Web Application Deployment Instructions](#code-deployment-for-web-application)
+2. [Instruction to use web application](#instruction-to-use-web-application)
+3. [File structure for web application](#file-structure-for-web-application)
+4. [Desktop Application Deployment Instructions](#code-deployment-for-desktop-application)
+
 # Specifications for code deployment
 
 1. Node.js version >= 16.3.2
@@ -84,6 +91,20 @@ $ flask run
 
 ![Table Parameters](https://user-images.githubusercontent.com/72285744/159014271-56125d6c-d432-4fac-9ae7-e7a6ea93b106.PNG)
 
+# File structure for web application
+
+.
+ * [client](./client)
+ * [server](./dir2)
+   * [file21.ext](./dir2/file21.ext)
+   * [file22.ext](./dir2/file22.ext)
+   * [file23.ext](./dir2/file23.ext)
+ * [dir1](./dir1)
+   * [file11.ext](./dir1/file11.ext)
+   * [file12.ext](./dir1/file12.ext)
+ * [file_in_root.ext](./file_in_root.ext)
+ * [README.md](./README.md)
+ * [dir3](./dir3)
 
 # Code Deployment for desktop application
 
