@@ -33,8 +33,6 @@ ChartJS.register(
 const chartSettings = {
   fill: false,
   lineTension: 0.05,
-  pointBorderColor: "rgba(75,192,192,1)",
-  pointBackgroundColor: "rgba(75,192,192,1)",
   pointBorderWidth: 1,
   pointHoverRadius: 6,
   pointHoverBorderColor: "black",
@@ -45,15 +43,19 @@ const chartSettings = {
 
 const additionalChartSetting = {
   label: "Rate",
-  borderColor: "rgba(75,192,192,1)",
-  backgroundColor: "rgba(75,192,192,0.4)",
-  pointHoverBackgroundColor: "rgba(75,192,192,1)",
+  borderColor: "rgba(255, 10, 63, 1)",
+  backgroundColor: "rgba(255, 10, 63, 0.4)",
+  pointBorderColor: "rgba(255, 10, 63, 1)",
+  pointBackgroundColor: "rgba(255, 10, 63, 1)",
+  pointHoverBackgroundColor: "rgba(255, 10, 63, 1)",
 };
 const additionalFitChartSetting = {
   label: "FIT_CURVE",
-  borderColor: "rgba(255, 10, 63, 0.5)",
-  backgroundColor: "rgba(255, 10, 63, 1)",
-  pointHoverBackgroundColor: "rgba(255, 10, 63, 1)",
+  borderColor: "rgba(25, 114, 231, 1)",
+  backgroundColor: "rgba(25, 114, 231, 1)",
+  pointBorderColor: "rgba(25, 114, 231, 0.4)",
+  pointBackgroundColor: "rgba(25, 114, 231, 1)",
+  pointHoverBackgroundColor: "rgba(25, 114, 231, 1)",
 };
 
 const zoomSettings = {
@@ -73,6 +75,7 @@ const zoomSettings = {
 };
 
 const optionSettings = {
+  responsive: true,
   scales: {
     x: {
       gridLines: {
@@ -92,7 +95,6 @@ const optionSettings = {
     },
 
     y: {
-      stacked: true,
       gridLines: {
         display: true,
       },
@@ -149,16 +151,8 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
   const chartRef = useRef(null);
 
   const { origTime, time, rate, convolve, stitch } = chartData;
-  console.log(chartData);
-  const {
-    catClass,
-    decayTime,
-    riseTime,
-    peakFlux,
-    xPeakArr,
-    yPeakArr,
-    peakArr,
-  } = peakData;
+  const { catClass, decayTime, riseTime, peakFlux, peakArr, startArr, endArr } =
+    peakData;
 
   const [datasetArr, setDatasetArr] = useState([
     {
@@ -171,12 +165,16 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
   const [lineOptions, setLineOptions] = useState(optionSettings);
 
   let annotateArr = [];
-  peakArr.forEach((value) => {
+  peakArr.forEach((value, index) => {
     annotateArr.push({
       ...peakLineOptionAnno,
       label: {
         ...labelOptionsAnno,
-        content: [`Peak Time: ${origTime[value]}`],
+        content: [
+          `Peak Time: ${origTime[value]}`,
+          `Start Time: ${startArr[index]}`,
+          `End Time: ${endArr[index]}`,
+        ],
       },
       value: (Math.round(value / 50) * 50) / 50,
     });
@@ -191,7 +189,7 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
         },
       ]);
     };
-    const setStichConvolveCurve = () => {
+    const setStitchConvolveCurve = () => {
       setDatasetArr([
         {
           ...chartSettings,
@@ -234,7 +232,7 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
     if (value === "raw") setRawCurve();
     else {
       if (stitchOpen) {
-        setStichConvolveCurve();
+        setStitchConvolveCurve();
       } else {
         setOnlyConvolveCurve();
       }
