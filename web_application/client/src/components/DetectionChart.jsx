@@ -165,6 +165,7 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
   const [lineOptions, setLineOptions] = useState(optionSettings);
 
   let annotateArr = [];
+  console.log(peakArr);
   peakArr.forEach((value, index) => {
     annotateArr.push({
       ...peakLineOptionAnno,
@@ -188,18 +189,22 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
           data: rate,
         },
       ]);
+      setLineOptions((prev) => {
+        let obj = { ...prev, plugins: { zoom: zoomSettings } };
+        return obj;
+      });
     };
     const setStitchConvolveCurve = () => {
       setDatasetArr([
         {
           ...chartSettings,
           ...additionalFitChartSetting,
-          data: convolve,
+          data: stitch,
         },
         {
           ...chartSettings,
           ...additionalChartSetting,
-          data: stitch,
+          data: convolve,
         },
       ]);
     };
