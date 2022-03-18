@@ -107,14 +107,22 @@ const TableComponent = ({ tableData, bgFlux }) => {
       <div className="text-2xl p-5">
         Background Flux: <strong>{bgFlux} ct/s</strong>
       </div>
-      <a
-        href={`data:attachment/text, ${encodeURI(textFile)}`}
-        target="_blank"
-        download="solarlog.txt"
-        rel="nore noreferrer"
-      >
-        Download Logs
-      </a>
+      <div className="flex justify-center">
+        <div
+          className="flex justify-center items-center w-1/2 rounded-lg p-3 text-white text-xl"
+          style={{ backgroundColor: "#1976d2" }}
+        >
+          <a
+            className="w-full text-center"
+            href={`data:attachment/text, ${encodeURI(textFile)}`}
+            target="_blank"
+            download="solarlog.txt"
+            rel="nore noreferrer"
+          >
+            <button>Download Logs</button>
+          </a>
+        </div>
+      </div>
     </>
   );
 };
