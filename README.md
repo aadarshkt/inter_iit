@@ -5,7 +5,7 @@
 3. [File structure explanation for web application](#file-structure-for-web-application)
 4. [Code deployment instructions for desktop application](#code-deployment-for-desktop-application)
 5. [ML-model explanation](#code-explantion-for-ml-model)
-5. [ML-model limitations](#limitations-of-ml-model)
+6. [ML-model limitations](#limitations-of-ml-model)
 
 # Specifications for code deployment
 
@@ -14,51 +14,68 @@
 3. Code editor -> VS code
 4. Python version >= 3.9.10
 
-
 # Code Deployment for web application
 
 1. Check version of Node.
+
 ```
 node -v
 ```
+
 2. If Node is not available download it for here https://nodejs.org/en/download/ for linux.
 3. In the terminal clone the project.
- ```  
-git clone https://github.com/aadarsh-kt/inter_iit.git  
-``` 
+
+```
+git clone https://github.com/Submission-interiit/MP_ISRO_T16
+```
+
 4. Navigate to client folder.
- ```
- cd web_application/inter_iit/client
- ```
+
+```
+cd web_application/inter_iit/client
+```
+
 5. Install node modules in the client.
-``` 
+
+```
 npm install
 ```
+
 6. Start local development server
+
 ```
 npm start
 ```
+
 7. New tab in browser will open.
 8. In another terminal navigate to web_application -> server
+
 ```
 cd web_application/server
 ```
+
 9. Create a virtual environment for flask server.
+
 ```
 python -m venv .venv
 ```
+
 10. Select python interpreter path (In vscode press ctrl + shift + p) and select interpreter by going to .venv/Scripts/python.exe
 
 11. Activate .venv/Scripts/activate.bat for cmd and .venv/Scripts/activate.ps1 for ps1
+
 ```
 .venv/Scripts/activate.ps1
 ```
 
 12. Install the required python packages.
+
 ```
 pip install -r requirements.txt
 ```
+
 13. To run the server. Navigate to server.
+
 ```
 python -m flask run
 ```
@@ -113,49 +130,50 @@ python -m flask run
 # Code Deployment for desktop application
 
 1. Navigate to standalone_application
+
 ```
 cd standalone_application
 ```
+
 2. Install node modules.
+
 ```
 npm install
 npm run watch
 ```
+
 3. In another terminal
+
 ```
 npm start
 ```
+
 4. The desktop app will start.
 
 # Code explantion for ml-model
-
 
 1. The lc file is read using astropy table which is then converted to pandas dataframe
 2. The dataframe is then convolved using gaussian kernal with width size 60
 3. The scipy find_peaks() function is then called to get the index of the peaks in a light curve
 4. The peak width function is then called to get a portion of the curve around the peak required to fit the curve
 5. The background flux is then calculated by calling bgdata() function which returns two output
-  i) Returns the light curve after  removing the peak width 
-  ii) Returns the median calculated on light curve after removing the median
+   i) Returns the light curve after removing the peak width
+   ii) Returns the median calculated on light curve after removing the median
 6. The standard deviation is then calculated for rates after removing peak width from the light curve
-7. User defined peak fitter function is called 
-  i) We scale the rate using mix max scaler which is required for better fit
-  ii) We fit the portion around the peak to our light curve function  and get the parameters of the function
-  iii) Using the parameters we got we extend the function to both side of the peakwidth 
-  iv) we reverse scale rate to original value using rev_scaler()
-  v) The time and rate for the extended curve corresponding to each peak is stored in newcurve 
-  vi) Scaled curve contains the fitted rate for peak width
+7. User defined peak fitter function is called
+   i) We scale the rate using mix max scaler which is required for better fit
+   ii) We fit the portion around the peak to our light curve function and get the parameters of the function
+   iii) Using the parameters we got we extend the function to both side of the peakwidth
+   iv) we reverse scale rate to original value using rev_scaler()
+   v) The time and rate for the extended curve corresponding to each peak is stored in newcurve
+   vi) Scaled curve contains the fitted rate for peak width
 8. Startidx() function is then called to get start and end index corresponding to start and end time of a burst
-  i) The start and end time are calculated as the point where the background flux+standard deviation meet the newcurve (i.e.Extended fitted curve)
-  ii) Unfit peaks are also eliminated in this function where the peak flux is lower than background flux +(115% of standard deviation) and the extended fitted curve cuts the background+standard deviation just once
+   i) The start and end time are calculated as the point where the background flux+standard deviation meet the newcurve (i.e.Extended fitted curve)
+   ii) Unfit peaks are also eliminated in this function where the peak flux is lower than background flux +(115% of standard deviation) and the extended fitted curve cuts the background+standard deviation just once
 9. Params function is called which then converts all the obtained information for all the peaks in a curve in a dataframe and classifies the peak on the basis of flux
 10. Stitcher function is then called which stiches the scaled curve(i.E. Fitted curve for peak width) for multiple peaks and background data.
 
 # Limitations of ml-model
 
-
 1. In order to display the fitted curve over the convolved data without discontinuities we have implemented a stitch function, this function uses the median in place of the unavailable fit for portion between 2 peaks and because of that in certain parts the gradient of the fitted curve appears to large and distorts the fitted curve.
 2. Incase of a very large rise or decay time where the start and end time extend beyond the duration of measurement, the curve is not able to fit optimally due to lack of information.
-
-
- 

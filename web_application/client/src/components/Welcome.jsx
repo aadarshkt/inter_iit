@@ -11,7 +11,7 @@ const Welcome = ({ onClickInputData }) => {
             onClick={(e) => {
               e.preventDefault();
               window.open(
-                "https://github.com/aadarsh-kt/inter_iit#readme",
+                "https://github.com/Submission-interiit/MP_ISRO_T16#readme",
                 "_blank"
               );
             }}

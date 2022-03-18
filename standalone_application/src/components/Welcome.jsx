@@ -11,7 +11,7 @@ const Welcome = ({ onClickInputData }) => {
                   onClick={(e) => {
                      e.preventDefault();
                      require("shell").openExternal(
-                        "https://github.com/aadarsh-kt/inter_iit#readme"
+                       "https://github.com/Submission-interiit/MP_ISRO_T16#readme"
                      );
                   }}
                   className="pl-5 font-bold w-1/3 pr-5 pt-2 pb-2 bg-blue-500 rounded-lg text-white"
