@@ -11,7 +11,6 @@ const CurveTypes = () => {
         control={<Radio />}
         label="Convolved"
       />
-      <FormControlLabel value="peaks" control={<Radio />} label="Peaks" />
     </>
   );
 };

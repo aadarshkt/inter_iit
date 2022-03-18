@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Header from "./components/Header";
-import { parseCSV } from "./utils/parseCSV";
+import MainPage from "./pages/main";
 import Welcome from "./components/Welcome";
-import DetectionChart from "./components/DectectionChart";
+import { parseCSV, parsePeakCSV } from "./utils/parseCSV";
+import MiniSpinner from "./components/MiniSpinner.jsx";
+
 const App = () => {
   const [state, setState] = useState({
-    left: true,
+    left: false,
   });
-
-  const [chartData, setChartData] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [chartData, setChartData] = useState({});
+  const [peakData, setPeakData] = useState({});
+  const [bgFlux, setBgFlux] = useState("");
+  const handleBgFLux = (flux) => {
+    console.log(flux);
+    setBgFlux(flux);
+  };
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -25,28 +32,33 @@ const App = () => {
   const handleChartResults = (data) => {
     const resultData = parseCSV(data);
     setChartData(resultData);
-    console.log(chartData);
+  };
+  const handlePeakResults = (data) => {
+    const resultData = parsePeakCSV(data);
+    setPeakData(resultData);
   };
 
-  useEffect(() => {
-    console.log(chartData);
-  }, [chartData]);
-
   return (
-    <div
-      className="flex flex-col min-h-screen w-full bg-[url('./assets/isroBackground.jpg')] bg-cover"
-      style={{ background: "url('./src/assets/isroBackground.jpg')" }}
-    >
+    <div className="flex flex-col min-h-screen w-full bg-[url('./src/assets/isroBackground.jpg')] bg-cover" style={{ background: "url('./src/assets/isroBackground.jpg')" }}>
       <Header
         state={state}
         toggleDrawer={toggleDrawer}
         chartResults={handleChartResults}
+        peakResults={handlePeakResults}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        handleBgFLux={handleBgFLux}
       />
-      <div className="flex grow" >
-        {chartData.length === 0 ? (
+      <div className="flex grow">
+        {isLoading ? (
+          <>
+            <div>Loading...</div>
+            <MiniSpinner />
+          </>
+        ) : Object.keys(chartData).length === 0 ? (
           <Welcome onClickInputData={toggleDrawer} />
         ) : (
-          <DetectionChart chartData={chartData} />
+          <MainPage chartData={chartData} peakData={peakData} bgFlux={bgFlux} />
         )}
       </div>
     </div>

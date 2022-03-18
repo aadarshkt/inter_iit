@@ -18,7 +18,6 @@ const ALLOWED_EXTENSION = ["lc", "txt", "xls", "csv", "dat", "fits"];
 //Tab Panel props
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -45,7 +44,15 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-const Sidebar = ({ state, toggleDrawer, chartResults }) => {
+const Sidebar = ({
+  state,
+  toggleDrawer,
+  chartResults,
+  peakResults,
+  setIsLoading,
+  isLoading,
+  handleBgFlux,
+}) => {
   const [value, setValue] = useState(new Date("2009-01-01T21:11:54"));
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -59,10 +66,20 @@ const Sidebar = ({ state, toggleDrawer, chartResults }) => {
   const handleFileSubmit = async (e) => {
     e.preventDefault();
     if (!file) return setErrorMessage("File Not Selected");
-    const res = await postFile({ file });
-    chartResults(res.data);
-
+    setIsLoading(true);
     toggleDrawer(`left`, false);
+    try {
+      const res = await postFile({ file });
+      await peakResults(res.data);
+      await chartResults(res.data);
+      console.log(res.data.backgroundflux);
+      await handleBgFlux(res.data.backgroundflux);
+    } catch (error) {
+      console.log(error);
+      setErrorMessage(`Error Occurred`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleDateChange = (newDate) => {
@@ -99,7 +116,7 @@ const Sidebar = ({ state, toggleDrawer, chartResults }) => {
           <div className="flex flex-col h-full justify-end w-full">
             <p className="text-xl text-center w-full">Specify date for</p>
             <p className="mb-10 text-xl text-center w-full">
-              Solar Flare Detection
+              Solar bursts Detection
             </p>
             <LocalizationProvider dateAdapter={DateAdapter}>
               <DesktopDatePicker
@@ -110,7 +127,12 @@ const Sidebar = ({ state, toggleDrawer, chartResults }) => {
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
-            <Button className="bg-purple-600 mt-5" variant="contained">
+            <Button
+              className="bg-purple-600 mt-5"
+              style={{ marginTop: "15px" }}
+              disabled={isLoading}
+              variant="contained"
+            >
               Submit
             </Button>
           </div>
@@ -125,6 +147,7 @@ const Sidebar = ({ state, toggleDrawer, chartResults }) => {
             </p>
             <div
               className="flex flex-col w-full h-full justify-center bg-black/10 p-6 rounded-lg"
+              style={{ backgroundColor: "#0000001A" }}
               {...getRootProps()}
             >
               <input
@@ -151,6 +174,7 @@ const Sidebar = ({ state, toggleDrawer, chartResults }) => {
             )}
             <Button
               className="bg-purple-600 mt-4 px-7"
+              style={{ marginTop: "15px" }}
               variant="contained"
               type="submit"
             >
