@@ -39,7 +39,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-start",
 }));
 
-export default function PersistentDrawerRight({ handleOpen, data, bgFlux }) {
+export default function PersistentDrawerRight({chartData, handleOpen, data, bgFlux }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true); //toggle drawer state
 
@@ -104,7 +104,7 @@ export default function PersistentDrawerRight({ handleOpen, data, bgFlux }) {
               </IconButton>
             </DrawerHeader>
             <Divider />
-            <TableComponent tableData={data} bgFlux={bgFlux} />
+            <TableComponent chartData={chartData} tableData={data} bgFlux={bgFlux} />
           </Drawer>
         </>
       )}

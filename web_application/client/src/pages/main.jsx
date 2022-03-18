@@ -16,7 +16,12 @@ const MainPage = ({ chartData, peakData, bgFlux }) => {
         isOpen={isOpen}
         peakData={peakData}
       />
-      <DataDrawer handleOpen={handleOpen} data={peakData} bgFlux={bgFlux} />
+      <DataDrawer
+        handleOpen={handleOpen}
+        data={peakData}
+        bgFlux={bgFlux}
+        chartData={chartData}
+      />
     </>
   );
 };
