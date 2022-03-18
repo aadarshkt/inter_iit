@@ -44,13 +44,15 @@ cd web_application/server
 ```
 9. Create a virtual environment for flask server.
 ```
-source Scripts/activate
+python -m venv .venv
 ```
-10. Install the required python packages.
+10. Select python interpreter path (In vscode press ctrl + shift + p) and select interpreter by going inside .venv/Scripts/python.exe
+11. Activate .venv/Scripts/activate.bat for cmd and .venv/Scripts/activate.bat
+12. Install the required python packages.
 ```
 pip install -r requirements.txt
 ```
-11. To run the server. Navigate to server.
+13. To run the server. Navigate to server.
 ```
 $ export FLASK_ENV=development
 $ flask run
