@@ -36,19 +36,17 @@ npm start
 6. In another terminal navigate to web_application -> server
 ```
 cd web_application
-cd server
 ```
-7. Install the required python packages.
-```
-pip install -r requirements.txt
-```
-8. Create a virtual environment for flask server.
+7. Create a virtual environment for flask server.
 ```
 source server/Scripts/activate
 ```
-9. To run the server.
+8. Install the required python packages.
 ```
-$ cd server
+pip install -r requirements.txt
+```
+9. To run the server. Navigate to server.
+```
 $ export FLASK_ENV=development
 $ flask run
 ```
@@ -93,18 +91,12 @@ $ flask run
 
 # File structure for web application
 
-.
- * [client](./client)
- * [server](./dir2)
-   * [file21.ext](./dir2/file21.ext)
-   * [file22.ext](./dir2/file22.ext)
-   * [file23.ext](./dir2/file23.ext)
- * [dir1](./dir1)
-   * [file11.ext](./dir1/file11.ext)
-   * [file12.ext](./dir1/file12.ext)
- * [file_in_root.ext](./file_in_root.ext)
- * [README.md](./README.md)
- * [dir3](./dir3)
+![Folder Structure](https://user-images.githubusercontent.com/72285744/159033412-0fe0c7fd-3b9d-41e8-b5a3-69392a439a32.PNG)
+
+1. src folder all the source code.
+2. api folder contains backend api.
+3. assets folder contains static images.
+4. components folder contains
 
 # Code Deployment for desktop application
 
