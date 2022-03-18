@@ -172,8 +172,8 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
         ...labelOptions,
         content: [
           `Peak Time: ${origTime[value]}`,
-          `Start Time: ${origTime[startArr[index]]}`,
-          `End Time: ${origTime[endArr[index]]}`,
+          `Start Time: ${startArr[index]}`,
+          `End Time: ${endArr[index]}`,
         ],
       },
       value: (Math.round(value / 50) * 50) / 50,
