@@ -5,6 +5,7 @@
 3. [File structure explanation for web application](#file-structure-for-web-application)
 4. [Code deployment instructions for desktop application](#code-deployment-for-desktop-application)
 5. [ML-model explanation](#code-explantion-for-ml-model)
+5. [ML-model limitations](#limitations-of-ml-model)
 
 # Specifications for code deployment
 
