@@ -18,6 +18,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import ChartFooter from "./ChartFooter";
 
+//registering utils
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -30,6 +31,7 @@ ChartJS.register(
   annotationPlugin
 );
 
+//default settings
 const chartSettings = {
   fill: false,
   lineTension: 0.05,
@@ -41,6 +43,7 @@ const chartSettings = {
   pointHitRadius: 10,
 };
 
+//settings only for raw or convolved curve
 const additionalChartSetting = {
   label: "Rate",
   borderColor: "rgba(255, 10, 63, 1)",
@@ -49,6 +52,8 @@ const additionalChartSetting = {
   pointBackgroundColor: "rgba(255, 10, 63, 1)",
   pointHoverBackgroundColor: "rgba(255, 10, 63, 1)",
 };
+
+//settings only for fitted curve
 const additionalFitChartSetting = {
   label: "FIT_CURVE",
   borderColor: "rgba(25, 114, 231, 1)",
@@ -74,6 +79,7 @@ const zoomSettings = {
   },
 };
 
+//default options
 const optionSettings = {
   responsive: true,
   scales: {
@@ -121,6 +127,8 @@ const optionSettings = {
     zoom: zoomSettings,
   },
 };
+
+//annotations option
 const peakLineOptionAnno = {
   type: "line",
   borderColor: "black",
@@ -128,6 +136,7 @@ const peakLineOptionAnno = {
   scaleID: "x",
 };
 
+//annotations->label option
 const labelOptionsAnno = {
   enabled: true,
   backgroundColor: "black",
@@ -138,21 +147,23 @@ const labelOptionsAnno = {
 };
 
 const DetectionChart = ({ chartData, peakData, isOpen }) => {
-  const [value, setValue] = useState("raw");
-  const [width, setWidth] = useState("w-full");
-  const [stitchOpen, setStitchOpen] = useState(false);
-  const [showPeaks, setShowPeaks] = useState(false);
+  const [value, setValue] = useState("raw"); //raw or convolve
+  const [width, setWidth] = useState("w-full"); //change width of chart
+  const [stitchOpen, setStitchOpen] = useState(false); //toggle fit curve
+  const [showPeaks, setShowPeaks] = useState(false); //toggle peaks
+
+  const chartRef = useRef(null); //chartRef->current gives chartInstance
+
+  const { origTime, time, rate, convolve, stitch } = chartData;
+  const { catClass, decayTime, riseTime, peakFlux, peakArr, startArr, endArr } =
+    peakData;
+
   const handleShowPeak = () => {
     setShowPeaks(!showPeaks);
   };
   const handleStitch = () => {
     setStitchOpen(!stitchOpen);
   };
-  const chartRef = useRef(null);
-
-  const { origTime, time, rate, convolve, stitch } = chartData;
-  const { catClass, decayTime, riseTime, peakFlux, peakArr, startArr, endArr } =
-    peakData;
 
   const [datasetArr, setDatasetArr] = useState([
     {
@@ -171,16 +182,14 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
       label: {
         ...labelOptionsAnno,
         content: [
-          `Peak ${index+1}`,
-          // `Peak Time: ${origTime[value]}`,
-          // `Start Time: ${startArr[index]}`,
-          // `End Time: ${endArr[index]}`,
+          `Peak ${index + 1}`, //shown on vertical line (peak)
         ],
       },
-      value: (Math.round(value / 50) * 50) / 50,
+      value: (Math.round(value / 50) * 50) / 50, //convert coordinate to nearest 50 interval
     });
   });
   useEffect(() => {
+    //settings for raw curve only
     const setRawCurve = () => {
       setDatasetArr([
         {
@@ -194,6 +203,7 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
         return obj;
       });
     };
+    //settings for fitted only
     const setStitchConvolveCurve = () => {
       setDatasetArr([
         {
@@ -208,7 +218,7 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
         },
       ]);
     };
-
+    //settings for convolved onlly
     const setOnlyConvolveCurve = () => {
       setDatasetArr([
         {
@@ -218,7 +228,7 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
         },
       ]);
     };
-
+    //settings for peak only
     const peakLineOption = {
       ...optionSettings,
       onClick: (e, element) => {
@@ -271,8 +281,8 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
   }, [isOpen]);
 
   const data = {
-    labels: time,
-    datasets: datasetArr,
+    labels: time, //x coordinate
+    datasets: datasetArr, //other datasets
   };
 
   return (
@@ -286,7 +296,7 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
 
         <div className="flex flex-col-reverse items-center w-full">
           <div className="w-full">
-            <Line ref={chartRef} data={data} options={lineOptions} />
+            <Line ref={chartRef} data={data} options={lineOptions} /> {/* Line Chart Component */}
             <ChartFooter
               rawOrConvolve={value}
               handleStitch={handleStitch}

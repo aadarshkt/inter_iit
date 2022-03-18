@@ -4,10 +4,6 @@ import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useDropzone } from "react-dropzone";
-import DateAdapter from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
-import { TextField } from "@mui/material";
 import { postFile } from "../api/index";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -51,10 +47,8 @@ const Sidebar = ({
   chartResults,
   peakResults,
   setIsLoading,
-  isLoading,
   handleBgFlux,
 }) => {
-  const [value, setValue] = useState(new Date("2009-01-01T21:11:54"));
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [tabIndex, setTabIndex] = React.useState(0);
@@ -64,6 +58,7 @@ const Sidebar = ({
     setTabIndex(newValue);
   };
 
+  //function called on submit
   const handleFileSubmit = async (e) => {
     e.preventDefault();
     if (!file) return setErrorMessage("File Not Selected");
@@ -81,10 +76,7 @@ const Sidebar = ({
     }
   };
 
-  const handleDateChange = (newDate) => {
-    setValue(newDate);
-  };
-
+  //dropzone function when file is dropped
   const onDrop = useCallback((acceptedFiles) => {
     setErrorMessage("");
     if (!ALLOWED_EXTENSION.includes(acceptedFiles[0].name.split(".").at(-1))) {
@@ -101,41 +93,17 @@ const Sidebar = ({
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 400 }}
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 500 }}
       role="presentation"
+      className="h-2/3"
     >
       <div className="flex items-center w-full justify-center pt-2">
         <Tabs value={tabIndex} onChange={handleTabIndex}>
-          <Tab label="Date" {...a11yProps(0)} />
           <Tab label="Upload FIle" {...a11yProps(1)} />
         </Tabs>
       </div>
-      <div className="flex flex-col items-center p-5 h-full justify-center">
-        <TabPanel value={tabIndex} index={0}>
-          <div className="flex flex-col h-full justify-end w-full">
-            <p className="text-xl text-center w-full">Specify date for</p>
-            <p className="mb-10 text-xl text-center w-full">
-              Solar bursts Detection
-            </p>
-            <LocalizationProvider dateAdapter={DateAdapter}>
-              <DesktopDatePicker
-                label="Date desktop"
-                inputFormat="dd/MM/yyyy"
-                value={value}
-                onChange={handleDateChange}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-            <Button
-              className="bg-purple-600 mt-5"
-              disabled={isLoading}
-              variant="contained"
-            >
-              Submit
-            </Button>
-          </div>
-        </TabPanel>
-        <TabPanel value={tabIndex} index={1}>
+      <div className="flex flex-col justify-start p-5 h-full">
+        <TabPanel value={tabIndex} index={0} className="h-full">
           <form
             className="flex flex-col w-full h-full justify-center"
             onSubmit={handleFileSubmit}
@@ -144,7 +112,7 @@ const Sidebar = ({
               Upload file to get analysis
             </p>
             <div
-              className="flex flex-col w-full h-full justify-center bg-black/10 p-6 rounded-lg"
+              className="flex flex-col w-full h-full justify-center bg-black/10 p-6 rounded-lg text-2xl text-center"
               {...getRootProps()}
             >
               <input
@@ -169,13 +137,15 @@ const Sidebar = ({
                 </p>
               </div>
             )}
-            <Button
-              className="bg-purple-600 mt-4 px-7"
-              variant="contained"
-              type="submit"
-            >
-              Submit
-            </Button>
+            <div className="flex justify-center">
+              <Button
+                className="bg-purple-600 w-1/2 rounded-lg text-xl mt-4 p-3"
+                variant="contained"
+                type="submit"
+              >
+                Submit
+              </Button>
+            </div>
           </form>
         </TabPanel>
       </div>

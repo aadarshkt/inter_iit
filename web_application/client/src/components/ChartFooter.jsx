@@ -16,6 +16,7 @@ const ChartFooter = ({
   return (
     <div className="flex justify-between">
       <div className="flex justify-evenly w-1/2">
+        {/* if raw curve then disable the buttons */}
         {rawOrConvolve === "raw" ? (
           <>
             <Button
@@ -54,6 +55,7 @@ const ChartFooter = ({
           </>
         )}
       </div>
+      {/* Zoom Button Group */}
       <div className="flex justify-end w-full items-center">
         <ToolTip title="Zoom Out" arrow>
           <ZoomOutIcon

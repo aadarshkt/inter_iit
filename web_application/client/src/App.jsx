@@ -6,6 +6,7 @@ import { parseCSV, parsePeakCSV } from "./utils/parseCSV";
 import MiniSpinner from "./components/MiniSpinner.jsx";
 
 const App = () => {
+  //handles left sidebar
   const [state, setState] = useState({
     left: false,
   });
@@ -55,6 +56,7 @@ const App = () => {
         handleBgFlux={handleBgFlux}
       />
       <div className="flex grow">
+        {/* Loader */}
         {isLoading ? (
           <div className="flex flex-col items-center justify-center absolute right-1/2 bottom-1/2 z-10">
             <MiniSpinner />

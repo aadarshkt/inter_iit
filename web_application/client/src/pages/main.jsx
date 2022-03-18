@@ -3,7 +3,7 @@ import DetectionChart from "../components/DetectionChart";
 import DataDrawer from "../components/DataDrawer";
 
 const MainPage = ({ chartData, peakData, bgFlux }) => {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(true); //state to handle data drawer change
 
   const handleOpen = (open) => {
     setIsOpen(open);

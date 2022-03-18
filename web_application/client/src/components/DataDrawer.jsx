@@ -9,7 +9,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import TableComponent from "./TableComponent";
 
-const drawerWidth = 540;
+const drawerWidth = 540; //width of side drawer
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
@@ -41,7 +41,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 export default function PersistentDrawerRight({ handleOpen, data, bgFlux }) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(true); //toggle drawer state
 
   const handleDrawerOpen = () => {
     setOpen(true);

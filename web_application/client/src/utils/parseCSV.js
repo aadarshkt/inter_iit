@@ -1,15 +1,17 @@
 import Papa from "papaparse";
 
+//converts peak related data into required object
 export const parsePeakCSV = (csv) => {
-  let catClass = [];
-  let decayTime = [];
-  let riseTime = [];
-  let peakFlux = [];
-  let peakArr = [];
-  let startArr = [];
-  let endArr = [];
+  //params for each peak
+  let catClass = []; //category class
+  let decayTime = []; //category class
+  let riseTime = []; //category class
+  let peakFlux = []; //category class
+  let peakArr = []; //category class
+  let startArr = []; //category class
+  let endArr = []; //category class
 
-  const obj = Papa.parse(csv.peakParams);
+  const obj = Papa.parse(csv.peakParams); //converts csv to object of arrays
 
   obj.data.forEach((value, index) => {
     if (index !== 0 && index !== obj.data.length - 1) {
@@ -34,16 +36,20 @@ export const parsePeakCSV = (csv) => {
   return result;
 };
 
+//converts chart related data into required object
 export const parseCSV = (csv) => {
+  //params to plot curve
   let timeArr = [];
   let origTime = [];
   let rateArr = [];
   let convolveArr = [];
   let stitchArr = [];
-  const obj = Papa.parse(csv.curveData);
+
+  const obj = Papa.parse(csv.curveData); //converts csv to object of arrays
+
   obj.data.forEach((value, index) => {
     origTime.push(value[0]);
-    if (index !== 0 && index % 50 === 0) {
+    if (index !== 0 && index % 50 === 0) { //taking time in intervals of 50 to reduce overload of data
       timeArr.push(value[0]);
       rateArr.push(value[1]);
       convolveArr.push(value[2]);
