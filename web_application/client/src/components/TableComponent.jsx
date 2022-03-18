@@ -32,40 +32,65 @@ const TableComponent = ({ tableData, bgFlux }) => {
   const { catClass, decayTime, riseTime, peakFlux, peakArr, startArr, endArr } =
     tableData;
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Peak</StyledTableCell>
-            <StyledTableCell align="right">Category</StyledTableCell>
-            <StyledTableCell align="right">Decay Time</StyledTableCell>
-            <StyledTableCell align="right">Rise Time</StyledTableCell>
-            <StyledTableCell align="right">Peak Flux</StyledTableCell>
-            <StyledTableCell align="right">Peak Time</StyledTableCell>
-            <StyledTableCell align="right">Start Time</StyledTableCell>
-            <StyledTableCell align="right">End Time</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {catClass.map((value, index) => (
-            <StyledTableRow key={index}>
-              <StyledTableCell component="th" scope="row">
-                {`Peak ${index + 1}`}
-              </StyledTableCell>
-              <StyledTableCell align="right">{value}</StyledTableCell>
-              <StyledTableCell align="right">
-                {decayTime[index]}
-              </StyledTableCell>
-              <StyledTableCell align="right">{riseTime[index]}</StyledTableCell>
-              <StyledTableCell align="right">{peakFlux[index]}</StyledTableCell>
-              <StyledTableCell align="right">{peakArr[index]}</StyledTableCell>
-              <StyledTableCell align="right">{startArr[index]}</StyledTableCell>
-              <StyledTableCell align="right">{endArr[index]}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      {tableData.catClass.length > 0 ? (
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <caption>
+              The vertical blue lines in the fitted curve do not indicate the
+              bursts' start and end time.
+            </caption>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Peak</StyledTableCell>
+                <StyledTableCell align="center">Category</StyledTableCell>
+                <StyledTableCell align="center">Decay Time (s)</StyledTableCell>
+                <StyledTableCell align="center">Rise Time (s)</StyledTableCell>
+                <StyledTableCell align="center">
+                  Peak Flux (ct/s)
+                </StyledTableCell>
+                <StyledTableCell align="center">Peak Time (s)</StyledTableCell>
+                <StyledTableCell align="center">Start Time (s)</StyledTableCell>
+                <StyledTableCell align="center">End Time (s)</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {catClass.map((value, index) => (
+                <StyledTableRow key={index}>
+                  <StyledTableCell align="center" component="th" scope="row">
+                    {`Peak ${index + 1}`}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">{value}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {decayTime[index]}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {riseTime[index]}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {peakFlux[index]}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {peakArr[index]}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {startArr[index]}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {endArr[index]}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <div className="text-center text-5xl py-5 underline">No Peaks Detected</div>
+      )}
+      <div className="text-2xl p-5">
+        Background Flux: <strong>{bgFlux} ct/s</strong>
+      </div>
+    </>
   );
 };
 

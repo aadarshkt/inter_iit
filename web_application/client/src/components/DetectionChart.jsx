@@ -83,7 +83,7 @@ const optionSettings = {
       },
       title: {
         display: true,
-        text: "Time",
+        text: "Time (s)",
         font: {
           family: "Comic Sans MS",
           size: 20,
@@ -100,7 +100,7 @@ const optionSettings = {
       },
       title: {
         display: true,
-        text: "Rate",
+        text: "Rate (ct/s)",
         font: {
           family: "Comic Sans MS",
           size: 20,

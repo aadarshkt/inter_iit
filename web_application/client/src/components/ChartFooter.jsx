@@ -20,15 +20,13 @@ const ChartFooter = ({
           <>
             <Button
               disabled
-              style={{ backgroundColor: "rgb(25, 118, 210)" }}
-              variant="contained"
+              variant="outlined"
             >
               Toggle Peaks
             </Button>
             <Button
               disabled
-              variant="contained"
-              style={{ backgroundColor: "rgb(25, 118, 210)" }}
+              variant="outlined"
             >
               Toggle Fit Curve
             </Button>
