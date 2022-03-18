@@ -46,16 +46,20 @@ cd web_application/server
 ```
 python -m venv .venv
 ```
-10. Select python interpreter path (In vscode press ctrl + shift + p) and select interpreter by going inside .venv/Scripts/python.exe
-11. Activate .venv/Scripts/activate.bat for cmd and .venv/Scripts/activate.bat
+10. Select python interpreter path (In vscode press ctrl + shift + p) and select interpreter by going to .venv/Scripts/python.exe
+
+11. Activate .venv/Scripts/activate.bat for cmd and .venv/Scripts/activate.ps1 for ps1
+```
+.venv/Scripts/activate.ps1
+```
+
 12. Install the required python packages.
 ```
 pip install -r requirements.txt
 ```
 13. To run the server. Navigate to server.
 ```
-$ export FLASK_ENV=development
-$ flask run
+python -m flask run
 ```
 
 # Instruction to use web application
@@ -130,23 +134,23 @@ npm start
 3. The scipy find_peaks() function is then called to get the index of the peaks in a light curve
 4. The peak width function is then called to get a portion of the curve around the peak required to fit the curve
 5. The background flux is then calculated by calling bgdata() function which returns two output
-6. returns the light curve after  removing the peak width 
-7. returns the median calculated on light curve after removing the median
-8. The standard deviation is then calculated for rates after removing peak width from the light curve
-9. User defined peak fitter function is called 
-10. we scale the rate using mix max scaler which is required for better fit
-11. we fit the portion around the peak to our light curve function  and get the parameters of the function
-12. using the parameters we got we extend the function to both side of the peakwidth 
-13. we reverse scale rate to original value using rev_scaler()
-14. the time and rate for the extended curve corresponding to each peak is stored in newcurve 
-15. scaled curve contains the fitted rate for peak width
-16. Startidx() function is then called to get start and end index corresponding to start and end time of a burst
-17. the start and end time are calculated as the point where the background flux+standard deviation meet the newcurve(i.E.Extended fitted curve)
-18. unfit peaks are also eliminated in this function where 
-19. the peak flux is lower than background flux +(115% of standard deviation)
-20. the extended fitted curve cuts the background+standard deviation just once
-21. Params function is called which then converts all the obtained information for all the peaks in a curve in a dataframe and classifies the peak on the basis of flux
-22. Sticher function is then called which stiches the scaled curve(i.E. Fitted curve for peak width) for multiple peaks and background data
+  i) Returns the light curve after  removing the peak width 
+  ii) Returns the median calculated on light curve after removing the median
+6. The standard deviation is then calculated for rates after removing peak width from the light curve
+7. User defined peak fitter function is called 
+  i) We scale the rate using mix max scaler which is required for better fit
+  ii) We fit the portion around the peak to our light curve function  and get the parameters of the function
+  iii) Using the parameters we got we extend the function to both side of the peakwidth 
+  iv) we reverse scale rate to original value using rev_scaler()
+  v) The time and rate for the extended curve corresponding to each peak is stored in newcurve 
+  vi) Scaled curve contains the fitted rate for peak width
+8. Startidx() function is then called to get start and end index corresponding to start and end time of a burst
+  i) The start and end time are calculated as the point where the background flux+standard deviation meet the newcurve(i.E.Extended fitted curve)
+  ii) unfit peaks are also eliminated in this function where 
+    i) The peak flux is lower than background flux +(115% of standard deviation)
+    ii) The extended fitted curve cuts the background+standard deviation just once
+9. Params function is called which then converts all the obtained information for all the peaks in a curve in a dataframe and classifies the peak on the basis of flux
+10. Sticher function is then called which stiches the scaled curve(i.E. Fitted curve for peak width) for multiple peaks and background data.
 
 
  
