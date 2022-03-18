@@ -165,16 +165,16 @@ const DetectionChart = ({ chartData, peakData, isOpen }) => {
   const [lineOptions, setLineOptions] = useState(optionSettings);
 
   let annotateArr = [];
-  console.log(peakArr);
   peakArr.forEach((value, index) => {
     annotateArr.push({
       ...peakLineOptionAnno,
       label: {
         ...labelOptionsAnno,
         content: [
-          `Peak Time: ${origTime[value]}`,
-          `Start Time: ${startArr[index]}`,
-          `End Time: ${endArr[index]}`,
+          `Peak ${index+1}`,
+          // `Peak Time: ${origTime[value]}`,
+          // `Start Time: ${startArr[index]}`,
+          // `End Time: ${endArr[index]}`,
         ],
       },
       value: (Math.round(value / 50) * 50) / 50,

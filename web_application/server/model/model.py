@@ -16,7 +16,7 @@ from scipy.special import erf
 from os.path import join, dirname, realpath
 
 
-class Curve_Fitter:
+class Curve_Fitter():
     # data_path to initialize the dataframe which we will work on. Only required parameter.
     def __init__(self, data_path, convo_size=60):
         self.data_raw = Table.read(data_path).to_pandas()
@@ -25,7 +25,7 @@ class Curve_Fitter:
         self.peak_list, _ = find_peaks(
             self.data['RATE'], height=40, prominence=16)
         self.width = peak_widths(
-            self.data['RATE'], self.peak_list, rel_height=0.65)
+            self.data['RATE'], self.peak_list, rel_height=0.60)
         self.start = self.width[2].astype(int)
         self.stop = self.width[3].astype(int)
         self.bd, self.bdata = self.bgdata()
@@ -100,7 +100,7 @@ class Curve_Fitter:
             ratescale = self.rev_scaler(
                 self.data, self.objective_func(TIME, a, b, c, d, e, f))
             scaledcurve.append(ratescale)
-            input_time = np.arange(-20000, list(TIME)[-1]+20000, 1)
+            input_time = np.arange(-10000, list(TIME)[-1]+10000, 1)
             new_curve = self.objective_func(input_time, a, b, c, d, e, f)
             input = (self.data['TIME'][self.start[i]]+input_time)
             newcurve.append(pd.DataFrame(
@@ -117,9 +117,6 @@ class Curve_Fitter:
             if len(c) < 2:
                 dellist.append(i)
                 continue
-            if (self.data['RATE'][self.peak_list[i]]-self.std-self.bdata) <= self.data['ERROR'][self.peak_list[i]]:
-                dellist.append(i)
-                continue
             else:
                 sloc = self.newcurve[i][self.newcurve[i]['RATE']
                                         >= self.bdata+self.std].index.tolist()[0]
@@ -133,9 +130,6 @@ class Curve_Fitter:
         else:
             self.peak_list = np.delete(self.peak_list, dellist)
             self.newcurve = np.delete(self.newcurve, dellist)
-            self.scaledcurve = np.delete(self.scaledcurve, dellist)
-            self.start = np.delete(self.start, dellist)
-            self.stop = np.delete(self.stop, dellist)
         return start, end
 
     def params(self):
@@ -147,37 +141,10 @@ class Curve_Fitter:
                             'rise_time': self.data['TIME'][self.peak_list[i]]-self.newcurve[i]['TIME'][self.startloc[i]],
                             'peak_flux': self.data['RATE'][self.peak_list[i]],
                             'peak_time': self.peak_list[i],
-                            'start_time': self.newcurve[i]['TIME'][self.startloc[i]],
-                            'end_time': self.newcurve[i]['TIME'][self.endloc[i]],
+                            'start_time': self.newcurve[i]['TIME'][self.startloc[i]]-self.data['TIME'][0],
+                            'end_time': self.newcurve[i]['TIME'][self.endloc[i]]-self.data['TIME'][0],
                             }, ignore_index=True)
-        for i in range(len(self.peak_list)):
-            if df['peak_flux'][i] >= 70 and df['peak_flux'][i] < 1000:
-                df['class'][i] = 'A'
-            elif df['peak_flux'][i] >= 1000 and df['peak_flux'][i] < 1e4:
-                df['class'][i] = 'B'
-            elif df['peak_flux'][i] >= 1e4 and df['peak_flux'][i] < 1e5:
-                df['class'][i] = 'C'
-            elif df['peak_flux'][i] < 70:
-                df['class'][i] = 'Subclass'
-            elif df['peak_flux'][i] >= 1e5 and df['peak_flux'][i] < 1e6:
-                df['class'][i] = 'M'
-            elif df['peak_flux'][i] >= 1e6 and df['peak_flux'][i] < 1e7:
-                df['class'][i] = 'X'
-            else:
-                df['class'][i] = 'UNDEFINED'
         return df
-
-    def plotter(self, std=False, newplot=False):
-        plt.figure(figsize=(20, 8))
-        plt.plot(self.data['TIME'], self.data['RATE'])
-        if std:
-            plt.axhline(self.bdata+self.std, color='g')
-        for i in range(len(self.peak_list)):
-            plt.axvline(self.data['TIME'][self.peak_list[i]])
-            if newplot:
-
-                plt.plot(self.newcurve[i]['TIME'], self.newcurve[i]['RATE'])
-        plt.show()
 
     def sticher(self, plot=True):
         df = self.data

@@ -72,8 +72,7 @@ const Sidebar = ({
       const res = await postFile({ file });
       await peakResults(res.data);
       await chartResults(res.data);
-      console.log(res.data.backgroundflux);
-      await handleBgFlux(res.data.backgroundflux);
+      handleBgFlux(res.data.backgroundflux);
     } catch (error) {
       setErrorMessage(`${error.errorMessage}`);
     } finally {

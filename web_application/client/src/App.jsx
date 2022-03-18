@@ -12,11 +12,8 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [chartData, setChartData] = useState({});
   const [peakData, setPeakData] = useState({});
-  const [bgFlux, setBgFlux] = useState("");
-  const handleBgFLux = (flux) => {
-    console.log(flux);
-    setBgFlux(flux);
-  };
+  const [bgFlux, setBgFlux] = useState(0);
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -37,6 +34,9 @@ const App = () => {
     const resultData = parsePeakCSV(data);
     setPeakData(resultData);
   };
+  const handleBgFlux = (flux) => {
+    setBgFlux(flux);
+  };
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-[url('./assets/isroBackground.jpg')] bg-cover">
@@ -47,7 +47,7 @@ const App = () => {
         peakResults={handlePeakResults}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
-        handleBgFLux={handleBgFLux}
+        handleBgFlux={handleBgFlux}
       />
       <div className="flex grow">
         {isLoading ? (
