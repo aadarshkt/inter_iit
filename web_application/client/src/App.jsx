@@ -25,6 +25,10 @@ const App = () => {
     setState({ ...state, [anchor]: open });
   };
 
+  const closeDrawer = (anchor, open) => {
+    setState({ ...state, [anchor]: open });
+  };
+
   //Convert CSV response to required object
   const handleChartResults = (data) => {
     const resultData = parseCSV(data);
@@ -43,6 +47,7 @@ const App = () => {
       <Header
         state={state}
         toggleDrawer={toggleDrawer}
+        closeDrawer={closeDrawer}
         chartResults={handleChartResults}
         peakResults={handlePeakResults}
         isLoading={isLoading}
@@ -51,10 +56,12 @@ const App = () => {
       />
       <div className="flex grow">
         {isLoading ? (
-          <>
-            <div>Loading...</div>
+          <div className="flex flex-col items-center justify-center absolute right-1/2 bottom-1/2 z-10">
             <MiniSpinner />
-          </>
+            <div className="flex">
+              <p className="text-white text-center pt-2 text-2xl">Loading</p>
+            </div>
+          </div>
         ) : Object.keys(chartData).length === 0 ? (
           <Welcome onClickInputData={toggleDrawer} />
         ) : (

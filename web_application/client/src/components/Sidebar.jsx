@@ -47,6 +47,7 @@ TabPanel.propTypes = {
 const Sidebar = ({
   state,
   toggleDrawer,
+  closeDrawer,
   chartResults,
   peakResults,
   setIsLoading,
@@ -67,7 +68,7 @@ const Sidebar = ({
     e.preventDefault();
     if (!file) return setErrorMessage("File Not Selected");
     setIsLoading(true);
-    toggleDrawer(`left`, false);
+    closeDrawer(`left`, false);
     try {
       const res = await postFile({ file });
       await peakResults(res.data);

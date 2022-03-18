@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 const Header = ({
   state,
   toggleDrawer,
+  closeDrawer,
   chartResults,
   peakResults,
   isLoading,
@@ -11,7 +12,6 @@ const Header = ({
   onLoad,
   handleBgFlux,
 }) => {
-  const downloadManual = () => {};
 
   return (
     <div className="flex w-full justify-between p-3 items-center">
@@ -19,6 +19,7 @@ const Header = ({
         <Sidebar
           state={state}
           toggleDrawer={toggleDrawer}
+          closeDrawer={closeDrawer}
           chartResults={chartResults}
           peakResults={peakResults}
           isLoading={isLoading}

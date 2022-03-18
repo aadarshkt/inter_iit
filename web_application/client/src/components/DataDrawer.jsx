@@ -2,7 +2,6 @@ import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import MuiAppBar from "@mui/material/AppBar";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -30,23 +29,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     }),
   })
 );
-
-// const AppBar = styled(MuiAppBar, {
-//   shouldForwardProp: (prop) => prop !== "open",
-// })(({ theme, open }) => ({
-//   transition: theme.transitions.create(["margin", "width"], {
-//     easing: theme.transitions.easing.sharp,
-//     duration: theme.transitions.duration.leavingScreen,
-//   }),
-//   ...(open && {
-//     width: `calc(100% - ${drawerWidth}px)`,
-//     transition: theme.transitions.create(["margin", "width"], {
-//       easing: theme.transitions.easing.easeOut,
-//       duration: theme.transitions.duration.enteringScreen,
-//     }),
-//     marginRight: drawerWidth,
-//   }),
-// }));
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
