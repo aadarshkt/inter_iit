@@ -1,9 +1,10 @@
 # Index of contents
 
-1. [Web Application Deployment Instructions](#code-deployment-for-web-application)
+1. [Code deployment instructions for web application](#code-deployment-for-web-application)
 2. [Instruction to use web application](#instruction-to-use-web-application)
-3. [File structure for web application](#file-structure-for-web-application)
-4. [Desktop Application Deployment Instructions](#code-deployment-for-desktop-application)
+3. [File structure explanation for web application](#file-structure-for-web-application)
+4. [Code deployment instructions for desktop application](#code-deployment-for-desktop-application)
+5. [ML-model explanation](#code-explantion-for-ml-model)
 
 # Specifications for code deployment
 
@@ -15,37 +16,41 @@
 
 # Code Deployment for web application
 
-1. In the terminal clone the project.
+1. Check version of Node.
+```
+node -v
+```
+2. If Node is not available download it for here https://nodejs.org/en/download/ for linux.
+3. In the terminal clone the project.
  ```  
 git clone https://github.com/aadarsh-kt/inter_iit.git  
 ``` 
-2. Navigate to client folder.
+4. Navigate to client folder.
  ```
- cd web_application
- cd client
+ cd web_application/inter_iit/client
  ```
-3. Install node modules.
+5. Install node modules in the client.
 ``` 
 npm install
 ```
-4. Start local development server
+6. Start local development server
 ```
 npm start
 ```
-5. New tab in browser will open.
-6. In another terminal navigate to web_application -> server
+7. New tab in browser will open.
+8. In another terminal navigate to web_application -> server
 ```
-cd web_application
+cd web_application/server
 ```
-7. Create a virtual environment for flask server.
+9. Create a virtual environment for flask server.
 ```
-source server/Scripts/activate
+source Scripts/activate
 ```
-8. Install the required python packages.
+10. Install the required python packages.
 ```
 pip install -r requirements.txt
 ```
-9. To run the server. Navigate to server.
+11. To run the server. Navigate to server.
 ```
 $ export FLASK_ENV=development
 $ flask run
@@ -96,8 +101,50 @@ $ flask run
 1. src folder all the source code.
 2. api folder contains backend api.
 3. assets folder contains static images.
-4. components folder contains
+4. components folder all react components.
 
 # Code Deployment for desktop application
 
-1. 
+1. Navigate to standalone_application
+```
+cd standalone_application
+```
+2. Install node modules.
+```
+npm install
+npm run watch
+```
+3. In another terminal
+```
+npm start
+```
+4. The desktop app will start.
+
+# Code explantion for ml-model
+
+
+1. The lc file is read using astropy table which is then converted to pandas dataframe
+2. The dataframe is then convolved using gaussian kernal with width size 60
+3. The scipy find_peaks() function is then called to get the index of the peaks in a light curve
+4. The peak width function is then called to get a portion of the curve around the peak required to fit the curve
+5. The background flux is then calculated by calling bgdata() function which returns two output
+6. returns the light curve after  removing the peak width 
+7. returns the median calculated on light curve after removing the median
+8. The standard deviation is then calculated for rates after removing peak width from the light curve
+9. User defined peak fitter function is called 
+10. we scale the rate using mix max scaler which is required for better fit
+11. we fit the portion around the peak to our light curve function  and get the parameters of the function
+12. using the parameters we got we extend the function to both side of the peakwidth 
+13. we reverse scale rate to original value using rev_scaler()
+14. the time and rate for the extended curve corresponding to each peak is stored in newcurve 
+15. scaled curve contains the fitted rate for peak width
+16. Startidx() function is then called to get start and end index corresponding to start and end time of a burst
+17. the start and end time are calculated as the point where the background flux+standard deviation meet the newcurve(i.E.Extended fitted curve)
+18. unfit peaks are also eliminated in this function where 
+19. the peak flux is lower than background flux +(115% of standard deviation)
+20. the extended fitted curve cuts the background+standard deviation just once
+21. Params function is called which then converts all the obtained information for all the peaks in a curve in a dataframe and classifies the peak on the basis of flux
+22. Sticher function is then called which stiches the scaled curve(i.E. Fitted curve for peak width) for multiple peaks and background data
+
+
+ 
