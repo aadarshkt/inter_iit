@@ -140,8 +140,8 @@ class Curve_Fitter():
                            'decay_time': self.newcurve[i]['TIME'][self.endloc[i]]-self.data['TIME'][self.peak_list[i]],
                             'rise_time': self.data['TIME'][self.peak_list[i]]-self.newcurve[i]['TIME'][self.startloc[i]],
                             'peak_flux': self.data['RATE'][self.peak_list[i]],
-                            'start_time': self.startloc[i],
                             'peak_time': self.peak_list[i],
+                            'start_time': self.startloc[i],
                             'end_time': self.endloc[i],
                             }, ignore_index=True)
         return df

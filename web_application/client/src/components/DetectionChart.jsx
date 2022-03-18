@@ -43,19 +43,19 @@ const chartSettings = {
 
 const additionalChartSetting = {
   label: "Rate",
-  borderColor: "rgba(75,192,192,1)",
-  backgroundColor: "rgba(75,192,192,0.4)",
-  pointBorderColor: "rgba(75,192,192,1)",
-  pointBackgroundColor: "rgba(75,192,192,1)",
-  pointHoverBackgroundColor: "rgba(75,192,192,1)",
-};
-const additionalFitChartSetting = {
-  label: "FIT_CURVE",
   borderColor: "rgba(255, 10, 63, 1)",
-  backgroundColor: "rgba(255, 10, 63, 0.5)",
+  backgroundColor: "rgba(255, 10, 63, 0.4)",
   pointBorderColor: "rgba(255, 10, 63, 1)",
   pointBackgroundColor: "rgba(255, 10, 63, 1)",
   pointHoverBackgroundColor: "rgba(255, 10, 63, 1)",
+};
+const additionalFitChartSetting = {
+  label: "FIT_CURVE",
+  borderColor: "rgba(25, 114, 231, 1)",
+  backgroundColor: "rgba(25, 114, 231, 1)",
+  pointBorderColor: "rgba(25, 114, 231, 0.4)",
+  pointBackgroundColor: "rgba(25, 114, 231, 1)",
+  pointHoverBackgroundColor: "rgba(25, 114, 231, 1)",
 };
 
 const zoomSettings = {
